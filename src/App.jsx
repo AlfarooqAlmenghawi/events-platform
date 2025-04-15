@@ -4,17 +4,20 @@ import BrowseEvents from "./components/BrowseEvents/BrowseEvents.jsx";
 import MyEvents from "./components/MyEvents/MyEvents.jsx";
 import Login from "./components/Login/Login.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/browse-events" element={<BrowseEvents />} />
-        <Route path="/my-events" element={<MyEvents />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/browse-events" element={<BrowseEvents />} />
+          <Route path="/my-events" element={<MyEvents />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
