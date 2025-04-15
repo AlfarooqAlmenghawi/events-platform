@@ -2,10 +2,12 @@ import { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null); // decoded user info
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("authToken");
     setUser(null);
+    navigate("/login");
   };
 
   return (
