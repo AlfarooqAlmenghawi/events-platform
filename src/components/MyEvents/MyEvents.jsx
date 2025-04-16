@@ -28,10 +28,12 @@ const MyEvents = () => {
         setUserEvents(response.data.events);
       } catch (error) {
         console.warn(error);
-        if ((error.status = 403)) {
+        if (error.response.data === "Invalid or expired token") {
           setError(
-            "Please login or create an account to view/create your events."
+            "Please login or create an account to view/ create your events."
           );
+        } else if (error.response.data === "No events found for this user") {
+          // setError("No events found. Create one!");
         }
       } finally {
         setLoading(false);
@@ -45,8 +47,8 @@ const MyEvents = () => {
     <div>
       <h1>My Events</h1>
       {loading && <p>Loading events...</p>}
-      {error && <p>Error fetching events: {error}</p>}
-      {!(userEvents.length === 0) && (
+      {error && <p>{error}</p>}
+      {!loading && (
         <main className="main-events-container">
           <section>
             <button
@@ -69,7 +71,7 @@ const MyEvents = () => {
               <h2>My Signed Up Events</h2>
               <p>Here you can view the events you have signed up for.</p>
               {userEvents?.length === 0 && !loading && (
-                <p>You have no events. Create one!</p>
+                <p>It seems that you have'nt signed up for any events yet!</p>
               )}
               {userEvents?.map((event) => (
                 <div key={event.id} className="event-card">
