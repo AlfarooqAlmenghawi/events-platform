@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { gapi } from "gapi-script";
 
 const EventDetails = () => {
   const { event_id } = useParams();
@@ -10,8 +11,9 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const token = Cookies.get("authToken");
   const [isSignedUp, setIsSignedUp] = useState(false);
-
+  const [addedToCalendar, setAddedToCalendar] = useState(false);
   const [popup, setPopup] = useState(null);
+  const [userGmail, setUserGmail] = useState(null);
 
   const Popup = ({ message, onClose }) => (
     <div
@@ -79,6 +81,126 @@ const EventDetails = () => {
     }
   }
 
+  async function addToGoogleCalendar() {
+    try {
+      const authInstance = gapi.auth2.getAuthInstance();
+      const user = authInstance.currentUser.get();
+
+      const isAuthorized = user.hasGrantedScopes(
+        "https://www.googleapis.com/auth/calendar.events"
+      );
+      if (!isAuthorized) {
+        await user.grant({
+          scope: "https://www.googleapis.com/auth/calendar.events",
+        });
+      }
+
+      const accessToken = user.getAuthResponse().access_token;
+      if (!accessToken) throw new Error("Access token not available");
+
+      const { event_title, event_description, event_date, event_location } =
+        event;
+
+      const startDateTime = new Date(event_date).toISOString();
+      const endDateTime = new Date(
+        new Date(event_date).getTime() + 2 * 60 * 60 * 1000
+      ).toISOString();
+
+      const calendarEvent = {
+        summary: event_title,
+        description: event_description,
+        start: {
+          dateTime: startDateTime,
+          timeZone: "UTC",
+        },
+        end: {
+          dateTime: endDateTime,
+          timeZone: "UTC",
+        },
+        location: event_location,
+      };
+
+      const response = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(calendarEvent),
+        }
+      );
+
+      if (response.ok) {
+        setPopup("Event added to Google Calendar!");
+        setAddedToCalendar(true);
+      } else {
+        const error = await response.json();
+        console.error("Calendar error:", error);
+        setPopup("Error adding to Google Calendar.");
+      }
+
+      const profile = user.getBasicProfile();
+      setUserGmail(profile.getEmail());
+    } catch (err) {
+      console.error("Error adding to Google Calendar:", err);
+      setPopup("Error adding to Google Calendar.");
+    } finally {
+      setTimeout(() => setPopup(null), 3000);
+    }
+  }
+
+  const handleSignOut = () => {
+    const authInstance = gapi.auth2.getAuthInstance();
+    if (authInstance) {
+      authInstance.signOut().then(() => {
+        setPopup("Signed out of Google");
+        setTimeout(() => setPopup(null), 3000);
+      });
+    }
+  };
+
+  useEffect(() => {
+    const CLIENT_ID =
+      "327814106325-vfsjfg49508c930r09n2djv2mvstk5bu.apps.googleusercontent.com";
+    const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+    const DISCOVERY_DOCS = [
+      "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+    ];
+
+    const initClient = () => {
+      gapi.load("client:auth2", async () => {
+        try {
+          await gapi.client.init({
+            clientId: CLIENT_ID,
+            scope: SCOPES,
+            discoveryDocs: DISCOVERY_DOCS,
+          });
+
+          const authInstance = gapi.auth2.getAuthInstance();
+
+          if (!authInstance.isSignedIn.get()) {
+            await authInstance.signIn(); // Prompt user to sign in
+          }
+
+          const user = authInstance.currentUser.get();
+          const profile = user.getBasicProfile();
+
+          if (profile) {
+            setUserGmail(profile.getEmail());
+          }
+        } catch (err) {
+          console.error("Google API init error:", err);
+          setPopup("Failed to initialize Google Calendar access.");
+          setTimeout(() => setPopup(null), 3000);
+        }
+      });
+    };
+
+    initClient();
+  }, []);
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -117,8 +239,21 @@ const EventDetails = () => {
       <a href={event.event_organizer_website} target="_blank" rel="noreferrer">
         {event.event_organizer_website}
       </a>
+      <p>Google Email: {userGmail}</p>
       {event.is_signed_up ? (
-        <button onClick={unsign}>Unsign</button>
+        <>
+          <p>You are signed up for this event!</p>
+          {addedToCalendar ? (
+            <button disabled>Added to Google Calendar</button>
+          ) : (
+            <button onClick={addToGoogleCalendar}>
+              Add Event to Google Calendar
+            </button>
+          )}
+
+          <button onClick={unsign}>Unsign</button>
+          <button onClick={handleSignOut}>Sign Out from Google Calendar</button>
+        </>
       ) : (
         <button onClick={signup}>Sign Up</button>
       )}
