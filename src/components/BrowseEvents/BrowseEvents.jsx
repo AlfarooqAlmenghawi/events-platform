@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,6 +7,7 @@ const BrowseEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchEvents = async () => {
     try {
@@ -49,7 +51,13 @@ const BrowseEvents = () => {
             {event.event_organizer_website}
           </Link>
           <br />
-          <button>View More Details</button>
+          <button
+            onClick={() => {
+              navigate(`/browse-events/${event.id}`);
+            }}
+          >
+            View More Details
+          </button>
         </div>
       ))}
     </div>
