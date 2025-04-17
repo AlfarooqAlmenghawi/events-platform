@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const MyEvents = () => {
   const [userEvents, setUserEvents] = useState([]);
@@ -8,6 +9,7 @@ const MyEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pageStatus, setPageStatus] = useState("my-signed-up-events");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserEvents = async () => {
@@ -120,7 +122,13 @@ const MyEvents = () => {
                     {event.event_organizer_website}
                   </a>
                   <br />
-                  <button>View More Details</button>
+                  <button
+                    onClick={() => {
+                      navigate(`/browse-events/${event.id}`);
+                    }}
+                  >
+                    View More Details
+                  </button>
                 </div>
               ))}
             </div>
@@ -128,7 +136,13 @@ const MyEvents = () => {
           {pageStatus === "my-created-events" && (
             <div className="my-created-events">
               <h2>My Created Events</h2>
-              <button>Create New Event</button>
+              <button
+                onClick={() => {
+                  navigate("/create-event");
+                }}
+              >
+                Create New Event
+              </button>
               <p>Here you can view the events you have created.</p>
               {userCreatedEvents?.length === 0 && !loading && (
                 <p>It seems that you have'nt created any events yet!</p>
@@ -144,7 +158,13 @@ const MyEvents = () => {
                     {event.event_organizer_website}
                   </a>
                   <br />
-                  <button>View More Details</button>
+                  <button
+                    onClick={() => {
+                      navigate(`/browse-events/${event.id}`);
+                    }}
+                  >
+                    View More Details
+                  </button>
                 </div>
               ))}
             </div>
