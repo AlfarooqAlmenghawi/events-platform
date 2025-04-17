@@ -163,7 +163,7 @@ const MyEvents = () => {
                       navigate(`/browse-events/${event.id}`);
                     }}
                   >
-                    View More Details
+                    View and Manage Event
                   </button>
                 </div>
               ))}
