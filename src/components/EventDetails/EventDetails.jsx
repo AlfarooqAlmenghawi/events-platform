@@ -12,6 +12,8 @@ const EventDetails = () => {
   const token = Cookies.get("authToken");
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [addedToCalendar, setAddedToCalendar] = useState(false);
+  const [addToCalendarButtonClicked, setAddToCalendarButtonClicked] =
+    useState(false);
   const [popup, setPopup] = useState(null);
   const [userGmail, setUserGmail] = useState(null);
 
@@ -155,6 +157,9 @@ const EventDetails = () => {
     const authInstance = gapi.auth2.getAuthInstance();
     if (authInstance) {
       authInstance.signOut().then(() => {
+        setUserGmail(null);
+        setAddedToCalendar(false);
+        setPopup(null);
         setPopup("Signed out of Google");
         setTimeout(() => setPopup(null), 3000);
       });
@@ -180,9 +185,9 @@ const EventDetails = () => {
 
           const authInstance = gapi.auth2.getAuthInstance();
 
-          if (!authInstance.isSignedIn.get()) {
-            await authInstance.signIn(); // Prompt user to sign in
-          }
+          // if (!authInstance.isSignedIn.get()) {
+          //   await authInstance.signIn(); // Prompt user to sign in
+          // }
 
           const user = authInstance.currentUser.get();
           const profile = user.getBasicProfile();
@@ -243,19 +248,24 @@ const EventDetails = () => {
       {event.is_signed_up ? (
         <>
           <p>You are signed up for this event!</p>
+          <button onClick={unsign}>Remove Event</button>
           {addedToCalendar ? (
             <button disabled>Added to Google Calendar</button>
           ) : (
-            <button onClick={addToGoogleCalendar}>
+            <button
+              onClick={() => {
+                setAddToCalendarButtonClicked(true);
+                addToGoogleCalendar();
+              }}
+            >
               Add Event to Google Calendar
             </button>
           )}
 
-          <button onClick={unsign}>Unsign</button>
           <button onClick={handleSignOut}>Sign Out from Google Calendar</button>
         </>
       ) : (
-        <button onClick={signup}>Sign Up</button>
+        <button onClick={signup}>Sign Up For Event</button>
       )}
     </div>
   );

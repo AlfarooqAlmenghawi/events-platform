@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 const MyEvents = () => {
   const [userEvents, setUserEvents] = useState([]);
+  const [userCreatedEvents, setUserCreatedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pageStatus, setPageStatus] = useState("my-signed-up-events");
@@ -43,6 +44,41 @@ const MyEvents = () => {
     fetchUserEvents();
   }, []);
 
+  useEffect(() => {
+    const fetchUserCreatedEvents = async () => {
+      const token = Cookies.get("authToken");
+
+      console.log("Fetching user's created events...");
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(
+          "https://events-platform-backend-production.up.railway.app/my-created-events",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Fetched created events:", response.data);
+        setUserCreatedEvents(response.data.events);
+      } catch (error) {
+        console.warn(error);
+        if (error.response.data === "Invalid or expired token") {
+          setError(
+            "Please login or create an account to view/ create your events."
+          );
+        } else if (error.response.data === "No events found for this user") {
+          // setError("No events found. Create one!");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserCreatedEvents();
+  }, []);
+
   return (
     <div>
       <h1>My Events</h1>
@@ -77,7 +113,7 @@ const MyEvents = () => {
                 <div key={event.id} className="event-card">
                   <h2>{event.event_title}</h2>
                   <p>{event.event_description}</p>
-                  <p>Date: {new Date(event.event_date).toLocaleDateString()}</p>
+                  <p>Date: {new Date(event.event_date).toLocaleString()}</p>
                   <p>Location: {event.event_location}</p>
                   <p>By {event.event_organizer}</p>
                   <a href={event.event_organizer_website} target="_blank">
@@ -93,6 +129,24 @@ const MyEvents = () => {
             <div className="my-created-events">
               <h2>My Created Events</h2>
               <button>Create New Event</button>
+              <p>Here you can view the events you have created.</p>
+              {userCreatedEvents?.length === 0 && !loading && (
+                <p>It seems that you have'nt created any events yet!</p>
+              )}
+              {userCreatedEvents?.map((event) => (
+                <div key={event.id} className="event-card">
+                  <h2>{event.event_title}</h2>
+                  <p>{event.event_description}</p>
+                  <p>Date: {new Date(event.event_date).toLocaleString()}</p>
+                  <p>Location: {event.event_location}</p>
+                  <p>By {event.event_organizer}</p>
+                  <a href={event.event_organizer_website} target="_blank">
+                    {event.event_organizer_website}
+                  </a>
+                  <br />
+                  <button>View More Details</button>
+                </div>
+              ))}
             </div>
           )}
         </main>
