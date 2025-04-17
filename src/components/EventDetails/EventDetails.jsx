@@ -174,6 +174,44 @@ const EventDetails = () => {
     }
   };
 
+  async function removeAttendee(attendee_id) {
+    try {
+      const response = await axios.delete(
+        `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees/${attendee_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setPopup("Attendee removed from event!");
+        setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
+      }
+      const response2 = await axios.get(
+        `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setEventAttendees(response2.data);
+    } catch (error) {
+      console.error("Error removing attendee:", error);
+      setPopup(null);
+      if (error.status === 403) {
+        setPopup("You are not authorized to remove this attendee.");
+      } else if (error.status === 404) {
+        setPopup("Attendee not found.");
+      } else {
+        setPopup("Error removing attendee.");
+      }
+      setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
+    }
+  }
+
   useEffect(() => {
     const CLIENT_ID =
       "327814106325-vfsjfg49508c930r09n2djv2mvstk5bu.apps.googleusercontent.com";
@@ -308,9 +346,11 @@ const EventDetails = () => {
                     attendee.last_name +
                     " (" +
                     attendee.email +
-                    ")"}
+                    ")"}{" "}
+                  <button onClick={() => removeAttendee(attendee.id)}>
+                    Remove Attendee from Event
+                  </button>
                 </li>
-                <button>Remove Attendee from Event</button>
               </>
             ))}
           </ul>
