@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
   const [eventDetails, setEventDetails] = useState({
@@ -10,9 +11,12 @@ const CreateEvent = () => {
     event_location: "",
     event_organizer_phone: "",
     event_organizer_website: "",
+    event_date_end: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const token = Cookies.get("authToken");
 
@@ -25,6 +29,12 @@ const CreateEvent = () => {
     name: "",
     email: "",
   });
+
+  const isEndDateValid = () => {
+    const start = new Date(eventDetails.event_date);
+    const end = new Date(eventDetails.event_date_end);
+    return end > start;
+  };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -53,30 +63,41 @@ const CreateEvent = () => {
     <div>
       <h1>Create Event</h1>
       {/* Add your form and logic here */}
-      <section>
-        // Form to create an event
+      <section className="create-event-form">
         <form
           onSubmit={async (e) => {
             e.preventDefault();
+
+            if (!isEndDateValid()) {
+              setError("End date/time must be after start date/time.");
+              return;
+            }
+
             setLoading(true);
             try {
               const response = await axios.post(
                 "https://events-platform-backend-production.up.railway.app/events",
                 {
                   ...eventDetails,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                 }
               );
               if (response.status === 201) {
                 console.log("Event created successfully");
                 const data = response.data;
                 console.log("Event created:", data);
+                navigate(`/browse-events/${data.id}`);
               }
             } catch (error) {
               if (error.status === 401) {
                 setError("You are not signed in.");
                 return;
               }
-              setError(error.response.data.error);
+              setError(error.response?.data?.error || "An error occurred");
             } finally {
               setLoading(false);
             }
@@ -107,6 +128,17 @@ const CreateEvent = () => {
             value={eventDetails.event_date}
             onChange={(e) =>
               setEventDetails({ ...eventDetails, event_date: e.target.value })
+            }
+            required
+          />
+          <input
+            type="datetime-local"
+            value={eventDetails.event_date_end}
+            onChange={(e) =>
+              setEventDetails({
+                ...eventDetails,
+                event_date_end: e.target.value,
+              })
             }
             required
           />

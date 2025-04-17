@@ -100,14 +100,21 @@ const EventDetails = () => {
       const accessToken = user.getAuthResponse().access_token;
       if (!accessToken) throw new Error("Access token not available");
 
-      const { event_title, event_description, event_date, event_location } =
-        event;
+      const {
+        event_title,
+        event_description,
+        event_date,
+        event_location,
+        event_date_end,
+      } = event;
 
       const startDateTime = new Date(event_date).toISOString();
-      const endDateTime = new Date(
-        new Date(event_date).getTime() + 2 * 60 * 60 * 1000
-      ).toISOString();
-
+      const endDateTime = event_date_end
+        ? new Date(event_date_end).toISOString()
+        : new Date(
+            new Date(event_date).getTime() + 2 * 60 * 60 * 1000
+          ).toISOString();
+      // Default to 2 hours later if no end date is provided
       const calendarEvent = {
         summary: event_title,
         description: event_description,
@@ -238,7 +245,10 @@ const EventDetails = () => {
       <>{popup && <Popup message={popup} onClose={() => setPopup(null)} />}</>
       <h1>{event.event_title}</h1>
       <p>{event.event_description}</p>
-      <p>Date: {new Date(event.event_date).toLocaleDateString()}</p>
+      <p>Start Date: {new Date(event.event_date).toLocaleString()}</p>
+      {event.event_date_end && (
+        <p>End Date: {new Date(event.event_date_end).toLocaleString()}</p>
+      )}
       <p>Location: {event.event_location}</p>
       <p>Organized by: {event.event_organizer}</p>
       <a href={event.event_organizer_website} target="_blank" rel="noreferrer">
