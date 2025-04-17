@@ -7,6 +7,7 @@ import { gapi } from "gapi-script";
 const EventDetails = () => {
   const { event_id } = useParams();
   const [event, setEvent] = useState(null);
+  const [eventAttendees, setEventAttendees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = Cookies.get("authToken");
@@ -226,8 +227,19 @@ const EventDetails = () => {
         );
         setEvent(response.data);
         setIsSignedUp(response.data.is_signed_up);
-      } catch (err) {
-        setError(err);
+        const response2 = await axios.get(
+          `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setEventAttendees(response2.data);
+      } catch (error) {
+        if (error.status === 404) {
+          setEventAttendees([]);
+        }
       } finally {
         setLoading(false);
       }
@@ -242,6 +254,13 @@ const EventDetails = () => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          window.history.back();
+        }}
+      >
+        Back
+      </button>
       <>{popup && <Popup message={popup} onClose={() => setPopup(null)} />}</>
       <h1>{event.event_title}</h1>
       <p>{event.event_description}</p>
@@ -276,6 +295,21 @@ const EventDetails = () => {
         </>
       ) : (
         <button onClick={signup}>Sign Up For Event</button>
+      )}
+      {eventAttendees.length > 0 && (
+        <div>
+          <h2>Event Attendees:</h2>
+          <ul>
+            {eventAttendees.map((attendee) => (
+              <li key={attendee.id}>
+                {attendee.first_name + " " + attendee.last_name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {eventAttendees.length === 0 && (
+        <p>No attendees yet. Be the first to sign up!</p>
       )}
     </div>
   );
