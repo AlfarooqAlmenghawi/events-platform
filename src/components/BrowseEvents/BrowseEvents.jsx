@@ -44,7 +44,7 @@ const BrowseEvents = () => {
         <div key={event.id} className="event-card">
           <h2>{event.event_title}</h2>
           <p>{event.event_description}</p>
-          <p>Date: {new Date(event.event_date).toLocaleDateString()}</p>
+          <p>Date: {new Date(event.event_date).toLocaleString()}</p>
           <p>Location: {event.event_location}</p>
           <p>By {event.event_organizer}</p>
           <Link to={event.event_organizer_website} target="_blank">
