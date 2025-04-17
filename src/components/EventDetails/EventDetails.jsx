@@ -250,7 +250,7 @@ const EventDetails = () => {
 
   if (loading) return <p>Loading event details...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!event) return <p>No event found.</p>;
+  if (!event) return <p>Event not found.</p>;
 
   return (
     <div>
@@ -301,9 +301,17 @@ const EventDetails = () => {
           <h2>Event Attendees:</h2>
           <ul>
             {eventAttendees.map((attendee) => (
-              <li key={attendee.id}>
-                {attendee.first_name + " " + attendee.last_name}
-              </li>
+              <>
+                <li key={attendee.id}>
+                  {attendee.first_name +
+                    " " +
+                    attendee.last_name +
+                    " (" +
+                    attendee.email +
+                    ")"}
+                </li>
+                <button>Remove Attendee from Event</button>
+              </>
             ))}
           </ul>
         </div>
