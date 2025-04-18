@@ -145,7 +145,7 @@ const MyEvents = () => {
               </button>
               <p>Here you can view the events you have created.</p>
               {userCreatedEvents?.length === 0 && !loading && (
-                <p>It seems that you have'nt created any events yet!</p>
+                <p>It seems that you haven't created any events yet!</p>
               )}
               {userCreatedEvents?.map((event) => (
                 <div key={event.id} className="event-card">
