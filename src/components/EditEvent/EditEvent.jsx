@@ -96,7 +96,6 @@ const EditEvent = () => {
   return (
     <div>
       <h1>Edit Event</h1>
-      {/* Add your form and logic here */}
       <section className="create-event-form">
         <form
           onSubmit={async (e) => {
@@ -219,6 +218,7 @@ const EditEvent = () => {
           {error && <p>{error}</p>}
         </form>
       </section>
+      <h1>Delete Event</h1>
     </div>
   );
 };
