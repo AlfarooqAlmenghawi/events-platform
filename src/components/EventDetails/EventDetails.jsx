@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { gapi } from "gapi-script";
@@ -17,6 +18,10 @@ const EventDetails = () => {
     useState(false);
   const [popup, setPopup] = useState(null);
   const [userGmail, setUserGmail] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [buttonAttendeeIdStatus, setButtonAttendeeIdStatus] = useState(null);
+
+  const navigate = useNavigate();
 
   const Popup = ({ message, onClose }) => (
     <div
@@ -39,6 +44,7 @@ const EventDetails = () => {
 
   async function unsign() {
     try {
+      setButtonLoading(true);
       const response = await axios.delete(
         `https://events-platform-backend-production.up.railway.app/events/${event_id}/signup`,
         {
@@ -57,11 +63,14 @@ const EventDetails = () => {
       setPopup(null);
       setPopup("Error unsigning!");
       setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
+    } finally {
+      setButtonLoading(false);
     }
   }
 
   async function signup() {
     try {
+      setButtonLoading(true);
       const response = await axios.post(
         `https://events-platform-backend-production.up.railway.app/events/${event_id}/signup`,
         {},
@@ -81,11 +90,14 @@ const EventDetails = () => {
       setPopup(null);
       setPopup("Error signing up. Please try again.");
       setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
+    } finally {
+      setButtonLoading(false);
     }
   }
 
   async function addToGoogleCalendar() {
     try {
+      setButtonLoading(true);
       const authInstance = gapi.auth2.getAuthInstance();
       const user = authInstance.currentUser.get();
 
@@ -157,6 +169,7 @@ const EventDetails = () => {
       console.error("Error adding to Google Calendar:", err);
       setPopup("Error adding to Google Calendar.");
     } finally {
+      setButtonLoading(false);
       setTimeout(() => setPopup(null), 3000);
     }
   }
@@ -176,6 +189,8 @@ const EventDetails = () => {
 
   async function removeAttendee(attendee_id) {
     try {
+      setButtonLoading(true);
+      setButtonAttendeeIdStatus(attendee_id);
       const response = await axios.delete(
         `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees/${attendee_id}`,
         {
@@ -209,6 +224,8 @@ const EventDetails = () => {
         setPopup("Error removing attendee.");
       }
       setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
+    } finally {
+      setButtonLoading(false);
     }
   }
 
@@ -300,6 +317,16 @@ const EventDetails = () => {
         Back
       </button>
       <>{popup && <Popup message={popup} onClose={() => setPopup(null)} />}</>
+      {event.is_owner && (
+        <button
+          onClick={() => {
+            navigate(`/edit-event/${event.id}`);
+          }}
+        >
+          Edit Event
+        </button>
+      )}
+
       <h1>{event.event_title}</h1>
       <p>{event.event_description}</p>
       <p>Start Date: {new Date(event.event_date).toLocaleString()}</p>
@@ -311,10 +338,19 @@ const EventDetails = () => {
       <a href={event.event_organizer_website} target="_blank" rel="noreferrer">
         {event.event_organizer_website}
       </a>
-      <p>Google Email: {userGmail}</p>
+
       {event.is_signed_up ? (
         <>
           <p>You are signed up for this event!</p>
+          {userGmail ? (
+            <p>You are signed in with Google account: {userGmail}</p>
+          ) : (
+            <p>
+              You are not currently signed in with a Google account. Click the
+              'Add Event to Google Calendar' button below to sign in and add the
+              event to Google Calendar.
+            </p>
+          )}
           <button onClick={unsign}>Remove Event</button>
           {addedToCalendar ? (
             <button disabled>Added to Google Calendar</button>
@@ -328,8 +364,11 @@ const EventDetails = () => {
               Add Event to Google Calendar
             </button>
           )}
-
-          <button onClick={handleSignOut}>Sign Out from Google Calendar</button>
+          {userGmail && (
+            <button onClick={handleSignOut}>
+              Sign Out from Google Calendar
+            </button>
+          )}
         </>
       ) : (
         <button onClick={signup}>Sign Up For Event</button>
@@ -341,15 +380,26 @@ const EventDetails = () => {
             {eventAttendees.map((attendee) => (
               <>
                 <li key={attendee.id}>
-                  {attendee.first_name +
-                    " " +
-                    attendee.last_name +
-                    " (" +
-                    attendee.email +
-                    ")"}{" "}
-                  <button onClick={() => removeAttendee(attendee.id)}>
-                    Remove Attendee from Event
-                  </button>
+                  {event.is_owner
+                    ? attendee.first_name +
+                      " " +
+                      attendee.last_name +
+                      " (" +
+                      attendee.email +
+                      ")"
+                    : attendee.first_name + " " + attendee.last_name}{" "}
+                  {event.is_owner && (
+                    <button
+                      onClick={() => removeAttendee(attendee.id)}
+                      disabled={
+                        buttonLoading && attendee.id === buttonAttendeeIdStatus
+                      }
+                    >
+                      {buttonLoading && attendee.id === buttonAttendeeIdStatus
+                        ? "Removing..."
+                        : "Remove Attendee from Event"}
+                    </button>
+                  )}
                 </li>
               </>
             ))}
