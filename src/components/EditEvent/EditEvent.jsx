@@ -95,130 +95,177 @@ const EditEvent = () => {
 
   return (
     <div>
-      <h1>Edit Event</h1>
-      <section className="create-event-form">
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
+      {eventDetails.is_owner ? (
+        <>
+          <h1>Edit Event</h1>
+          <section className="edit-event-form">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
 
-            if (!isEndDateValid()) {
-              setError("End date/time must be after start date/time.");
-              return;
-            }
-
-            setLoading(true);
-            try {
-              const response = await axios.put(
-                `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
-                {
-                  ...eventDetails,
-                },
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
+                if (!isEndDateValid()) {
+                  setError("End date/time must be after start date/time.");
+                  return;
                 }
-              );
-              if (response.status === 200) {
-                const data = response.data;
-                console.log("Event created:", data);
-                navigate(`/browse-events/${event_id}`);
-              }
-            } catch (error) {
-              if (error.status === 401) {
-                setError("You are not signed in.");
-                return;
-              }
-              setError(error.response?.data?.error || "An error occurred");
-            } finally {
-              setLoading(false);
-            }
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Event Title"
-            value={eventDetails.event_title}
-            onChange={(e) =>
-              setEventDetails({ ...eventDetails, event_title: e.target.value })
-            }
-            required
-          />
-          <textarea
-            placeholder="Event Description"
-            value={eventDetails.event_description}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_description: e.target.value,
-              })
-            }
-            required
-          ></textarea>
-          <input
-            type="datetime-local"
-            value={eventDetails.event_date}
-            onChange={(e) =>
-              setEventDetails({ ...eventDetails, event_date: e.target.value })
-            }
-            required
-          />
-          <input
-            type="datetime-local"
-            value={eventDetails.event_date_end}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_date_end: e.target.value,
-              })
-            }
-            required
-          />
-          <input
-            type="text"
-            placeholder="Event Location"
-            value={eventDetails.event_location}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_location: e.target.value,
-              })
-            }
-            required
-          />
-          <input type="text" placeholder={user.name} disabled />
-          <input type="text" placeholder={user.email} disabled />
-          <input
-            type="text"
-            placeholder="Organizer Phone"
-            value={eventDetails.event_organizer_phone}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_organizer_phone: e.target.value,
-              })
-            }
-            required
-          />
-          <input
-            type="url"
-            placeholder="Organizer Website"
-            value={eventDetails.event_organizer_website}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_organizer_website: e.target.value,
-              })
-            }
-            required
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? "Editing..." : "Edit Event"}
-          </button>
-          {error && <p>{error}</p>}
-        </form>
-      </section>
-      <h1>Delete Event</h1>
+
+                setLoading(true);
+                try {
+                  const response = await axios.put(
+                    `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+                    {
+                      ...eventDetails,
+                    },
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  );
+                  if (response.status === 200) {
+                    const data = response.data;
+                    console.log("Event created:", data);
+                    navigate(`/browse-events/${event_id}`);
+                  }
+                } catch (error) {
+                  if (error.status === 401) {
+                    setError("You are not signed in.");
+                    return;
+                  }
+                  setError(error.response?.data?.error || "An error occurred");
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Event Title"
+                value={eventDetails.event_title}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_title: e.target.value,
+                  })
+                }
+                required
+              />
+              <textarea
+                placeholder="Event Description"
+                value={eventDetails.event_description}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_description: e.target.value,
+                  })
+                }
+                required
+              ></textarea>
+              <input
+                type="datetime-local"
+                value={eventDetails.event_date}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_date: e.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="datetime-local"
+                value={eventDetails.event_date_end}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_date_end: e.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="text"
+                placeholder="Event Location"
+                value={eventDetails.event_location}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_location: e.target.value,
+                  })
+                }
+                required
+              />
+              <input type="text" placeholder={user.name} disabled />
+              <input type="text" placeholder={user.email} disabled />
+              <input
+                type="text"
+                placeholder="Organizer Phone"
+                value={eventDetails.event_organizer_phone}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_organizer_phone: e.target.value,
+                  })
+                }
+                required
+              />
+              <input
+                type="url"
+                placeholder="Organizer Website"
+                value={eventDetails.event_organizer_website}
+                onChange={(e) =>
+                  setEventDetails({
+                    ...eventDetails,
+                    event_organizer_website: e.target.value,
+                  })
+                }
+                required
+              />
+              <button type="submit" disabled={loading}>
+                {loading ? "Editing..." : "Edit Event"}
+              </button>
+              {error && <p>{error}</p>}
+            </form>
+          </section>
+          <h1>Delete Event</h1>
+          <section className="delete-event-form">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                try {
+                  const response = await axios.delete(
+                    `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+                    {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  );
+                  if (response.status === 200) {
+                    console.log("Event deleted:", response.data);
+                    navigate("/my-events");
+                  }
+                } catch (error) {
+                  if (error.status === 401) {
+                    setError("You are not signed in.");
+                    return;
+                  }
+                  setError(error.response?.data?.error || "An error occurred");
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              <button type="submit" disabled={loading}>
+                {loading ? "Deleting..." : "Delete Event"}
+              </button>
+            </form>
+            {error && <p>{error}</p>}
+          </section>{" "}
+        </>
+      ) : (
+        <p>You are not the owner of this event.</p>
+      )}
     </div>
   );
 };
