@@ -1,12 +1,16 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate(); // For redirecting after login
   const { login } = useContext(AuthContext);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const message = queryParams.get("message"); // Gets the value after ?message=
 
   const [error, setError] = useState(null);
 
@@ -59,7 +63,8 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
-      {error && <p>{error}</p>}
+      {message && <p style={{ color: "green" }}>{message}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <p>
         Don't have an account? <a href="/signup">Sign Up</a>
       </p>

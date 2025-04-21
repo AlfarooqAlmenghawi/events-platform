@@ -14,7 +14,9 @@ const VerifyEmailCode = () => {
         const response = await axios.get(
           `https://events-platform-backend-production.up.railway.app/verify/${verification_code}`
         );
-        navigate("/login");
+        navigate(
+          "/login?message=Email verified successfully. You can now log in."
+        );
       } catch (error) {
         console.error("Verification failed:", error);
         if (error.response) {
