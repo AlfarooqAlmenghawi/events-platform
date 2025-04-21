@@ -7,6 +7,8 @@ import EditEvent from "./components/EditEvent/EditEvent.jsx";
 import MyEvents from "./components/MyEvents/MyEvents.jsx";
 import Login from "./components/Login/Login.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
+import VerifyEmail from "./components/VerifyEmail/VerifyEmail.jsx";
+import VerifyEmailCode from "./components/VerifyEmail/VerifyEmailCode.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 function App() {
@@ -22,6 +24,13 @@ function App() {
           <Route path="/edit-event/:event_id" element={<EditEvent />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/verify" element={<VerifyEmail />} />
+          <Route
+            path="/verify/:verification_code"
+            element={<VerifyEmailCode />}
+          />
+          <Route path="/" element={<BrowseEvents />} />
+          <Route path="*" element={<BrowseEvents />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

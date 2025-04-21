@@ -28,7 +28,6 @@ const Login = () => {
       await login(token);
       console.log("Login successful!");
 
-      // Redirect or update UI
       navigate("/my-events");
     } catch (error) {
       if (error.response) {
@@ -44,11 +43,11 @@ const Login = () => {
       <h2>Login</h2>
       <form onSubmit={loginUser}>
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email: </label>
           <input type="email" id="email" name="email" required />
         </div>
         <div>
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password: </label>
           <input type="password" id="password" name="password" required />
         </div>
         <button type="submit">Login</button>
