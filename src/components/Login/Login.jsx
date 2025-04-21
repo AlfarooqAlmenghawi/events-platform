@@ -1,12 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate(); // For redirecting after login
   const { login } = useContext(AuthContext);
+
+  const [error, setError] = useState(null);
 
   const loginUser = async (event) => {
     event.preventDefault(); // Prevent form default submission behavior
@@ -31,6 +33,11 @@ const Login = () => {
       navigate("/my-events");
     } catch (error) {
       if (error.response) {
+        if (error.response.status === 400) {
+          setError(
+            "It seems that your username/password isn't correct. If you are sure you entered them correctly, please verify your email before logging in."
+          );
+        }
         console.error("Login failed:", error.response);
       } else {
         console.error("Login error:", error.message);
@@ -52,6 +59,10 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {error && <p>{error}</p>}
+      <p>
+        Don't have an account? <a href="/signup">Sign Up</a>
+      </p>
     </div>
   );
 };
