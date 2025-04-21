@@ -328,6 +328,7 @@ const EventDetails = () => {
       )}
 
       <h1>{event.event_title}</h1>
+      <img src={event.event_image_url} alt={event.event_title} />
       <p>{event.event_description}</p>
       <p>Start Date: {new Date(event.event_date).toLocaleString()}</p>
       {event.event_date_end && (
@@ -378,30 +379,28 @@ const EventDetails = () => {
           <h2>Event Attendees:</h2>
           <ul>
             {eventAttendees.map((attendee) => (
-              <>
-                <li key={attendee.id}>
-                  {event.is_owner
-                    ? attendee.first_name +
-                      " " +
-                      attendee.last_name +
-                      " (" +
-                      attendee.email +
-                      ")"
-                    : attendee.first_name + " " + attendee.last_name}{" "}
-                  {event.is_owner && (
-                    <button
-                      onClick={() => removeAttendee(attendee.id)}
-                      disabled={
-                        buttonLoading && attendee.id === buttonAttendeeIdStatus
-                      }
-                    >
-                      {buttonLoading && attendee.id === buttonAttendeeIdStatus
-                        ? "Removing..."
-                        : "Remove Attendee from Event"}
-                    </button>
-                  )}
-                </li>
-              </>
+              <li key={attendee.id}>
+                {event.is_owner
+                  ? attendee.first_name +
+                    " " +
+                    attendee.last_name +
+                    " (" +
+                    attendee.email +
+                    ")"
+                  : attendee.first_name + " " + attendee.last_name}{" "}
+                {event.is_owner && (
+                  <button
+                    onClick={() => removeAttendee(attendee.id)}
+                    disabled={
+                      buttonLoading && attendee.id === buttonAttendeeIdStatus
+                    }
+                  >
+                    {buttonLoading && attendee.id === buttonAttendeeIdStatus
+                      ? "Removing..."
+                      : "Remove Attendee from Event"}
+                  </button>
+                )}
+              </li>
             ))}
           </ul>
         </div>

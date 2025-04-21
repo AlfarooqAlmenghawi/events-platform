@@ -1,5 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .header {
   display: flex;
+}
+
+.logo {
+  margin: auto 0;
+  width: 100px;
 }
 
 .header-buttons {
