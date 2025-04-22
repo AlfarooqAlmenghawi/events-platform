@@ -19,6 +19,9 @@ const EditEvent = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [imageFile, setImageFile] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+
   const navigate = useNavigate();
 
   const token = Cookies.get("authToken");
@@ -37,6 +40,28 @@ const EditEvent = () => {
     const start = new Date(eventDetails.event_date);
     const end = new Date(eventDetails.event_date_end);
     return end > start;
+  };
+
+  const uploadImage = async () => {
+    if (!imageFile) return "";
+
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await axios.post(
+      "https://events-platform-backend-production.up.railway.app/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("📸 Uploaded image URL:", response.data.url);
+
+    return response.data.url;
   };
 
   useEffect(() => {
@@ -110,10 +135,14 @@ const EditEvent = () => {
 
                 setLoading(true);
                 try {
+                  // Upload the image first
+                  const uploadedImageURL = await uploadImage();
+
                   const response = await axios.put(
                     `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
                     {
                       ...eventDetails,
+                      event_image_url: uploadedImageURL, // include image URL
                     },
                     {
                       headers: {
@@ -123,7 +152,7 @@ const EditEvent = () => {
                   );
                   if (response.status === 200) {
                     const data = response.data;
-                    console.log("Event created:", data);
+                    console.log("Event edited:", data);
                     navigate(`/browse-events/${event_id}`);
                   }
                 } catch (error) {
@@ -220,6 +249,24 @@ const EditEvent = () => {
                 }
                 required
               />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImageFile(file);
+                  if (file) {
+                    setImageURL(URL.createObjectURL(file)); // For preview
+                  }
+                }}
+              />
+              {imageURL && (
+                <img
+                  src={imageURL}
+                  alt="Event Banner Preview"
+                  style={{ maxWidth: "100%", marginTop: "10px" }}
+                />
+              )}
               <button type="submit" disabled={loading}>
                 {loading ? "Editing..." : "Edit Event"}
               </button>

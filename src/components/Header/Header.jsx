@@ -12,8 +12,8 @@ const Header = () => {
 
   return (
     <header className="header">
-      <img src="/assets/logo.png" alt="Logo" className="logo" />
-      <h1>Events Platform</h1>
+      <img src="/assets/logo.png" alt="Events Platform Logo" className="logo" />
+      {/* <h1>Events Platform</h1> */}
       <section className="header-buttons">
         <Link to="/browse-events">
           <button>Browse Events</button>

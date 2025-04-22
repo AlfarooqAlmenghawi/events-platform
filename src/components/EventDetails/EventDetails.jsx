@@ -23,6 +23,30 @@ const EventDetails = () => {
 
   const navigate = useNavigate();
 
+  const getDuration = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffMs = endDate - startDate;
+
+    if (diffMs <= 0) return "Invalid duration";
+
+    const diffSeconds = Math.floor(diffMs / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    const days = diffDays;
+    const hours = diffHours % 24;
+    const minutes = diffMinutes % 60;
+
+    let result = "";
+    if (days) result += `${days} day${days > 1 ? "s" : ""} `;
+    if (hours) result += `${hours} hour${hours > 1 ? "s" : ""} `;
+    if (minutes) result += `${minutes} minute${minutes > 1 ? "s" : ""}`;
+
+    return result.trim();
+  };
+
   const Popup = ({ message, onClose }) => (
     <div
       style={{
@@ -330,9 +354,12 @@ const EventDetails = () => {
       <h1>{event.event_title}</h1>
       <img src={event.event_image_url} alt={event.event_title} />
       <p>{event.event_description}</p>
-      <p>Start Date: {new Date(event.event_date).toLocaleString()}</p>
+      <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
       {event.event_date_end && (
-        <p>End Date: {new Date(event.event_date_end).toLocaleString()}</p>
+        <>
+          <p>End Time: {new Date(event.event_date_end).toLocaleString()}</p>
+          <p>Duration: {getDuration(event.event_date, event.event_date_end)}</p>
+        </>
       )}
       <p>Location: {event.event_location}</p>
       <p>Organized by: {event.event_organizer}</p>
