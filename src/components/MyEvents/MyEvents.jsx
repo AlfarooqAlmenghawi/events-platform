@@ -160,9 +160,8 @@ const MyEvents = () => {
                       />
                     ) : (
                       <img
-                        src="/assets/default-event-image.png"
+                        src="https://hoqphugtdxjwawlawpzm.supabase.co/storage/v1/object/public/event-banners/1745446438551-b170870007dfa419295d949814474ab2_t.jpeg"
                         alt="Default Event"
-                        style={{ width: "300px" }}
                       />
                     )}
                     <div className="my-event-info">
@@ -223,9 +222,8 @@ const MyEvents = () => {
                       />
                     ) : (
                       <img
-                        src="/assets/default-event-image.png"
+                        src="https://hoqphugtdxjwawlawpzm.supabase.co/storage/v1/object/public/event-banners/1745446438551-b170870007dfa419295d949814474ab2_t.jpeg"
                         alt="Default Event"
-                        style={{ width: "300px" }}
                       />
                     )}
                     <div className="my-event-info">
