@@ -1,3 +1,5 @@
+import "./MyEvents.css";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -106,8 +108,8 @@ const MyEvents = () => {
   }, []);
 
   return (
-    <div>
-      <h1>My Events</h1>
+    <div className="my-events">
+      <h1 className="my-events-page-title">My Events</h1>
       {loading && <p>Loading events...</p>}
       {error && <p>{error}</p>}
       {!loading && (
@@ -130,42 +132,49 @@ const MyEvents = () => {
           </section>
           {pageStatus === "my-signed-up-events" && (
             <div className="my-signed-up-events">
-              <h2>My Signed Up Events</h2>
-              <p>Here you can view the events you have signed up for.</p>
+              <h2 className="my-events-page-subheading">My Signed Up Events</h2>
+              <p className="my-events-page-description">
+                Here you can view the events you have signed up for.
+              </p>
               {userEvents?.length === 0 && !loading && (
                 <p>It seems that you have'nt signed up for any events yet!</p>
               )}
-              {userEvents?.map((event) => (
-                <div key={event.id} className="event-card">
-                  <h2>{event.event_title}</h2>
-                  <p>{event.event_description}</p>
-                  <p>
-                    Start Time: {new Date(event.event_date).toLocaleString()}
-                  </p>
-                  <p>
-                    Duration:{" "}
-                    {getDuration(event.event_date, event.event_date_end)}
-                  </p>
-                  <p>Location: {event.event_location}</p>
-                  <p>By {event.event_organizer}</p>
-                  <a href={event.event_organizer_website} target="_blank">
-                    {event.event_organizer_website}
-                  </a>
-                  <br />
-                  <button
-                    onClick={() => {
-                      navigate(`/browse-events/${event.id}`);
-                    }}
-                  >
-                    View More Details
-                  </button>
-                </div>
-              ))}
+              <section className="my-events-list">
+                {userEvents?.map((event) => (
+                  <div key={event.id} className="my-event-card">
+                    <h2>{event.event_title}</h2>
+                    <p>{event.event_description}</p>
+                    <p>
+                      Start Time: {new Date(event.event_date).toLocaleString()}
+                    </p>
+                    <p>
+                      Duration:{" "}
+                      {getDuration(event.event_date, event.event_date_end)}
+                    </p>
+                    <p>Location: {event.event_location}</p>
+                    <p>By {event.event_organizer}</p>
+                    <a href={event.event_organizer_website} target="_blank">
+                      {event.event_organizer_website}
+                    </a>
+                    <br />
+                    <button
+                      onClick={() => {
+                        navigate(`/browse-events/${event.id}`);
+                      }}
+                    >
+                      View More Details
+                    </button>
+                  </div>
+                ))}{" "}
+              </section>
             </div>
           )}
           {pageStatus === "my-created-events" && (
             <div className="my-created-events">
-              <h2>My Created Events</h2>
+              <h2 className="my-events-page-subheading">My Created Events</h2>
+              <p className="my-events-page-description">
+                Here you can view the events you have created.
+              </p>
               <button
                 onClick={() => {
                   navigate("/create-event");
@@ -173,12 +182,11 @@ const MyEvents = () => {
               >
                 Create New Event
               </button>
-              <p>Here you can view the events you have created.</p>
               {userCreatedEvents?.length === 0 && !loading && (
                 <p>It seems that you haven't created any events yet!</p>
               )}
               {userCreatedEvents?.map((event) => (
-                <div key={event.id} className="event-card">
+                <div key={event.id} className="my-event-card">
                   <h2>{event.event_title}</h2>
                   <p>{event.event_description}</p>
                   <p>

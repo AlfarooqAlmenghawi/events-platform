@@ -1,0 +1,84 @@
+.my-events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid #ff4040;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 1);
+  width: 90%;
+  margin: auto;
+}
+
+.my-events-page-title {
+  font-size: 50px;
+  font-weight: bold;
+  color: #ff4040;
+  margin: 0;
+}
+
+.my-events-page-subheading {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ff4040;
+  margin: 0;
+  font-style: italic;
+}
+
+.my-events-page-description {
+  font-size: 20px;
+  color: #333;
+  margin: 0;
+}
+
+.main-events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.my-created-events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.my-events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+}
+
+.my-event-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  /* width: calc(25% - 20px); */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.my-signed-up-events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.browse-event-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 5px;
+}
+
+.browse-event-location {
+  font-size: calc(16px + 0.2vw);
+  margin: 5px 0;
+}

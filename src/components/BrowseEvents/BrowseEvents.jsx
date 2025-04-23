@@ -1,3 +1,5 @@
+import "./BrowseEvents.css";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -58,46 +60,51 @@ const BrowseEvents = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Browse Events</h1>
-      {/* Add your event browsing logic here */}
-      <p>Here you can browse all the events available.</p>
-      {/* Example: Fetch and display events */}
+    <div className="browse-events">
+      <h1 className="browse-events-page-title">Browse Events</h1>
+      <p className="browse-events-page-description">
+        Here you can browse all the events available.
+      </p>
       {loading && <p>Loading events...</p>}
-      {events.map((event) => (
-        <div key={event.id} className="event-card">
-          <h2>{event.event_title}</h2>
-          {event.event_image_url ? (
-            <img
-              src={event.event_image_url}
-              alt={event.event_title}
-              style={{ width: "300px" }}
-            />
-          ) : (
-            <img
-              src="/assets/default-event-image.png"
-              alt="Default Event"
-              style={{ width: "300px" }}
-            />
-          )}
-          <p>{event.event_description}</p>
-          <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
-          <p>Duration: {getDuration(event.event_date, event.event_date_end)}</p>
-          <p>Location: {event.event_location}</p>
-          <p>By {event.event_organizer}</p>
-          <Link to={event.event_organizer_website} target="_blank">
-            {event.event_organizer_website}
-          </Link>
-          <br />
-          <button
-            onClick={() => {
-              navigate(`/browse-events/${event.id}`);
-            }}
-          >
-            View More Details
-          </button>
-        </div>
-      ))}
+      <main className="browse-events-list">
+        {error && <p>Error fetching events: {error.message}</p>}
+        {events.map((event) => (
+          <div key={event.id} className="browse-event-card">
+            <h2>{event.event_title}</h2>
+            {event.event_image_url ? (
+              <img src={event.event_image_url} alt={event.event_title} />
+            ) : (
+              <img
+                src="/assets/default-event-image.png"
+                alt="Default Event"
+                style={{ width: "300px" }}
+              />
+            )}
+            <div className="browse-event-info">
+              {/* <p>{event.event_description}</p> */}
+              <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
+              <p>
+                Duration: {getDuration(event.event_date, event.event_date_end)}
+              </p>
+              <p className="browse-event-location">
+                Location: {event.event_location}
+              </p>
+              <p>By {event.event_organizer}</p>
+            </div>
+            <Link to={event.event_organizer_website} target="_blank">
+              Website ({event.event_organizer_website})
+            </Link>
+            <br />
+            <button
+              onClick={() => {
+                navigate(`/browse-events/${event.id}`);
+              }}
+            >
+              View More Details
+            </button>
+          </div>
+        ))}
+      </main>
     </div>
   );
 };
