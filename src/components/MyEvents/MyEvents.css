@@ -49,7 +49,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
-  padding: 20px;
+  padding: 0px;
   width: 100%;
 }
 
@@ -71,6 +71,11 @@
   transition: all 0.2s ease-in-out;
 }
 
+.my-event-card:hover {
+  transform: translateY(0);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 .my-signed-up-events {
   display: flex;
   flex-direction: column;
@@ -79,10 +84,9 @@
 }
 
 .my-event-info {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  padding: 5px;
+  margin: 4px 0;
+  font-size: 0.95em;
+  color: #333;
 }
 
 .my-event-location {
@@ -96,4 +100,90 @@
   object-fit: cover;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+.my-event-card h2 {
+  font-size: 22px;
+  color: #333;
+  margin: 10px 0;
+  text-align: center;
+}
+.my-event-card p {
+  font-size: 1em;
+  margin: 5px 0;
+}
+.my-event-card a {
+  text-decoration: none;
+  color: #ff4040;
+  font-weight: bold;
+}
+.my-event-card a:hover {
+  text-decoration: underline;
+}
+.my-event-card a:active {
+  color: #ec4343;
+}
+.my-event-card button {
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.my-event-card button:hover {
+  background-color: #ec4343;
+}
+.my-event-card button:active {
+  background-color: #bd4b4b;
+}
+
+.button-active {
+  font-family: "SpecialGothic", sans-serif;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.button-active:hover {
+  background-color: #ec4343;
+}
+.button-active:active {
+  background-color: #bd4b4b;
+}
+.button-inactive {
+  font-family: "SpecialGothic", sans-serif;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.button-inactive:hover {
+  background-color: #ccc;
+}
+.button-inactive:active {
+  background-color: #ccc;
+}
+.create-event-button {
+  font-family: "SpecialGothic", sans-serif;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.create-event-button:hover {
+  background-color: #ec4343;
+}
+.create-event-button:active {
+  background-color: #bd4b4b;
 }

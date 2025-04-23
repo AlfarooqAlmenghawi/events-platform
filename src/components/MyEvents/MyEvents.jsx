@@ -119,6 +119,11 @@ const MyEvents = () => {
               onClick={() => {
                 setPageStatus("my-signed-up-events");
               }}
+              className={
+                pageStatus === "my-signed-up-events"
+                  ? "button-active"
+                  : "button-inactive"
+              }
             >
               My Signed Up Events
             </button>
@@ -126,6 +131,11 @@ const MyEvents = () => {
               onClick={() => {
                 setPageStatus("my-created-events");
               }}
+              className={
+                pageStatus === "my-created-events"
+                  ? "button-active"
+                  : "button-inactive"
+              }
             >
               My Created Events
             </button>
@@ -143,16 +153,31 @@ const MyEvents = () => {
                 {userEvents?.map((event) => (
                   <div key={event.id} className="my-event-card">
                     <h2>{event.event_title}</h2>
-                    <p>{event.event_description}</p>
-                    <p>
-                      Start Time: {new Date(event.event_date).toLocaleString()}
-                    </p>
-                    <p>
-                      Duration:{" "}
-                      {getDuration(event.event_date, event.event_date_end)}
-                    </p>
-                    <p>Location: {event.event_location}</p>
-                    <p>By {event.event_organizer}</p>
+                    {event.event_image_url ? (
+                      <img
+                        src={event.event_image_url}
+                        alt={event.event_title}
+                      />
+                    ) : (
+                      <img
+                        src="/assets/default-event-image.png"
+                        alt="Default Event"
+                        style={{ width: "300px" }}
+                      />
+                    )}
+                    <div className="my-event-info">
+                      <p>{event.event_description}</p>
+                      <p>
+                        Start Time:{" "}
+                        {new Date(event.event_date).toLocaleString()}
+                      </p>
+                      <p>
+                        Duration:{" "}
+                        {getDuration(event.event_date, event.event_date_end)}
+                      </p>
+                      <p>Location: {event.event_location}</p>
+                      <p>By {event.event_organizer}</p>
+                    </div>
                     <a href={event.event_organizer_website} target="_blank">
                       {event.event_organizer_website}
                     </a>
@@ -161,6 +186,7 @@ const MyEvents = () => {
                       onClick={() => {
                         navigate(`/browse-events/${event.id}`);
                       }}
+                      style={{ fontFamily: "SpecialGothic" }}
                     >
                       View More Details
                     </button>
@@ -179,6 +205,7 @@ const MyEvents = () => {
                 onClick={() => {
                   navigate("/create-event");
                 }}
+                className="create-event-button"
               >
                 Create New Event
               </button>
@@ -222,6 +249,7 @@ const MyEvents = () => {
                       onClick={() => {
                         navigate(`/browse-events/${event.id}`);
                       }}
+                      style={{ fontFamily: "SpecialGothic" }}
                     >
                       View and Manage Event
                     </button>
