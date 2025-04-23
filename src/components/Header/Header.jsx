@@ -16,23 +16,27 @@ const Header = () => {
       {/* <h1>Events Platform</h1> */}
       <section className="header-buttons">
         <Link to="/browse-events">
-          <button>Browse Events</button>
+          <button className="header-button">Browse Events</button>
         </Link>
         <Link to="/my-events">
-          <button>My Events</button>
+          <button className="header-button">My Events</button>
         </Link>
         {user ? (
           <>
-            <span>Welcome, {user.first_name + " " + user.last_name}</span>
-            <button onClick={logout}>Logout</button>
+            <span className="welcome-message">
+              Welcome, {user.first_name + " " + user.last_name}
+            </span>
+            <button onClick={logout} className="header-button">
+              Logout
+            </button>
           </>
         ) : (
           <>
             <Link to="/login">
-              <button>Login</button>
+              <button className="header-button">Login</button>
             </Link>
             <Link to="/signup">
-              <button>Sign Up</button>
+              <button className="header-button">Sign Up</button>
             </Link>
           </>
         )}

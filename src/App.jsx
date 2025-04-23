@@ -30,7 +30,7 @@ function App() {
             element={<VerifyEmailCode />}
           />
           <Route path="/" element={<BrowseEvents />} />
-          <Route path="*" element={<BrowseEvents />} />
+          {/* <Route path="*" element={<BrowseEvents />} /> */}
         </Routes>
       </AuthProvider>
     </BrowserRouter>

@@ -137,12 +137,14 @@ const EditEvent = () => {
                 try {
                   // Upload the image first
                   const uploadedImageURL = await uploadImage();
+                  const finalImageURL =
+                    uploadedImageURL || eventDetails.event_image_url;
 
                   const response = await axios.put(
                     `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
                     {
                       ...eventDetails,
-                      event_image_url: uploadedImageURL, // include image URL
+                      event_image_url: finalImageURL, // include image URL
                     },
                     {
                       headers: {

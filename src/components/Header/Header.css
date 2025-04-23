@@ -16,3 +16,29 @@ body {
   margin: auto 0;
   margin-left: auto;
 }
+
+.header-button {
+  font-family: "SpecialGothic", sans-serif;
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.header-button:hover {
+  background-color: #ec4343;
+}
+.header-button:focus {
+  outline: none;
+}
+.header-button:active {
+  background-color: #bd4b4b;
+}
+
+.welcome-message {
+  margin: auto 0;
+  font-size: 20px;
+}
