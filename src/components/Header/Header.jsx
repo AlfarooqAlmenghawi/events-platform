@@ -8,6 +8,8 @@ import "./Header.css";
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {}, [user]);
 
   return (
@@ -41,6 +43,41 @@ const Header = () => {
           </>
         )}
       </section>
+      <button
+        className="open-menu-button-phone"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {menuOpen ? "Close Menu" : "Open Menu"}
+      </button>
+      {menuOpen && (
+        <section className="header-buttons-phone">
+          <Link to="/browse-events">
+            <button className="header-button-phone">Browse Events</button>
+          </Link>
+          <Link to="/my-events">
+            <button className="header-button-phone">My Events</button>
+          </Link>
+          {user ? (
+            <>
+              <span className="welcome-message-phone">
+                Welcome, {user.first_name + " " + user.last_name}
+              </span>
+              <button onClick={logout} className="header-button-phone">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="header-button-phone">Login</button>
+              </Link>
+              <Link to="/signup">
+                <button className="header-button-phone">Sign Up</button>
+              </Link>
+            </>
+          )}
+        </section>
+      )}
     </header>
   );
 };

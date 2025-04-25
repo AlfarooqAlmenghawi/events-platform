@@ -1,24 +1,83 @@
-.back-button {
-  background-color: #4caf50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
-.event-page {
-  display: flex;
+.event {
+  /* display: flex; */
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   padding: 20px;
   border: 2px solid #ff4040;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 1);
   width: 90%;
   margin: auto;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%; */
+}
+
+.event-header {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  grid-template-areas: "back-button event-title spoof";
+  grid-template-columns: 105px 1fr 105px; /* fixed | flexible | fixed */
+  gap: 10px;
+}
+
+.event-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  font-family: "SpecialGothic", sans-serif;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100px;
+  display: block;
+  grid-area: back-button;
+}
+
+.edit-button {
+  font-family: "SpecialGothic", sans-serif;
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100px;
+  grid-area: spoof;
+}
+
+.event-title {
+  font-size: clamp(24px, 5vw, 50px);
+  font-weight: bold;
+  color: #ff4040;
+  margin: 0;
+  text-align: center;
+  grid-area: event-title;
+}
+
+@media screen and (max-width: 500px) {
+  .event-header {
+    grid-template-areas:
+      "back-button spoof2 spoof"
+      "event-title event-title event-title";
+    grid-template-columns: 105px 1fr; /* flexible | flexible */
+  }
+  .event-title {
+    text-align: center;
+    font-size: clamp(24px, 5vw, 50px);
+    margin: 0;
+    grid-area: event-title;
+  }
 }

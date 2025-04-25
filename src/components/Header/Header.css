@@ -4,22 +4,39 @@ body {
 }
 
 .header {
-  display: flex;
+  display: grid;
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
+  grid-template-areas: "logo nav";
+  grid-template-columns: auto 1fr; /* fixed | flexible | fixed */
+  gap: 10px;
   /* background: #fff4e6; */
-  /* border-bottom: 2px solid #ff6b6b; */
+  border-bottom: 2px solid #ff6b6b;
+  margin-bottom: 20px;
 }
 
 .logo {
-  margin: auto 0;
-  width: 350px;
+  width: clamp(100px, 30vw, 300px);
+  height: auto;
+  grid-area: logo;
 }
 
 .header-buttons {
   margin: auto 0;
   margin-left: auto;
+}
+
+.header-buttons-phone {
+  display: none;
+}
+
+/* .header-button-phone {
+  display: none;
+} */
+
+.open-menu-button-phone {
+  display: none;
 }
 
 .header-button {
@@ -32,6 +49,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  /* width: clamp(0px, 1000vw, 100px); */
 }
 .header-button:hover {
   background-color: #ec4343;
@@ -46,4 +64,87 @@ body {
 .welcome-message {
   margin: auto 0;
   font-size: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  .header-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .welcome-message {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .header-button {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .welcome-message {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .header-button {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .welcome-message {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 585px) {
+  .header-buttons {
+    display: none;
+  }
+
+  .open-menu-button-phone {
+    display: block; /* Always show the "Menu" button */
+    background-color: #ff4040;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-family: "SpecialGothic", sans-serif;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .header-buttons-phone {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 80px; /* Push it down a bit below the header */
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    gap: 10px;
+    align-items: center;
+    width: 200px; /* Give it a proper width */
+  }
+
+  .header-button-phone {
+    /* display: block; */
+    background-color: #ff4040;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "SpecialGothic", sans-serif;
+    font-size: 16px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
 }

@@ -334,118 +334,117 @@ const EventDetails = () => {
   if (!event) return <p>Event not found.</p>;
 
   return (
-    <div className="event-page">
-      <button
-        onClick={() => {
-          window.history.back();
-        }}
-        className="back-button"
-      >
-        Back
-      </button>
-      <>{popup && <Popup message={popup} onClose={() => setPopup(null)} />}</>
-      {event.is_owner && (
+    <main className="event">
+      <header className="event-header">
         <button
           onClick={() => {
-            navigate(`/edit-event/${event.id}`);
+            window.history.back();
           }}
+          className="back-button"
         >
-          Edit Event
+          Back
         </button>
+        <>{popup && <Popup message={popup} onClose={() => setPopup(null)} />}</>
+        {event.is_owner && (
+          <button
+            onClick={() => {
+              navigate(`/edit-event/${event.id}`);
+            }}
+            className="edit-button"
+          >
+            Edit Event
+          </button>
+        )}
+        <h1 className="event-title">{event.event_title}</h1>
+      </header>
+      <img
+        className="event-image"
+        src={event.event_image_url}
+        alt={event.event_title}
+      />
+      <p>{event.event_description}</p>
+      <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
+      {event.event_date_end && (
+        <>
+          <p>End Time: {new Date(event.event_date_end).toLocaleString()}</p>
+          <p>Duration: {getDuration(event.event_date, event.event_date_end)}</p>
+        </>
       )}
-      <main className="event">
-        <h1>{event.event_title}</h1>
-        <img src={event.event_image_url} alt={event.event_title} />
-        <p>{event.event_description}</p>
-        <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
-        {event.event_date_end && (
-          <>
-            <p>End Time: {new Date(event.event_date_end).toLocaleString()}</p>
-            <p>
-              Duration: {getDuration(event.event_date, event.event_date_end)}
-            </p>
-          </>
-        )}
-        <p>Location: {event.event_location}</p>
-        <p>Organized by: {event.event_organizer}</p>
-        <a
-          href={event.event_organizer_website}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {event.event_organizer_website}
-        </a>
+      <p>Location: {event.event_location}</p>
+      <p>Organized by: {event.event_organizer}</p>
+      <a href={event.event_organizer_website} target="_blank" rel="noreferrer">
+        {event.event_organizer_website}
+      </a>
 
-        {event.is_signed_up ? (
-          <>
-            <p>You are signed up for this event!</p>
-            {userGmail ? (
-              <p>You are signed in with Google account: {userGmail}</p>
-            ) : (
-              <p>
-                You are not currently signed in with a Google account. Click the
-                'Add Event to Google Calendar' button below to sign in and add
-                the event to Google Calendar.
-              </p>
-            )}
-            <button onClick={unsign}>Remove Event</button>
-            {addedToCalendar ? (
-              <button disabled>Added to Google Calendar</button>
-            ) : (
-              <button
-                onClick={() => {
-                  setAddToCalendarButtonClicked(true);
-                  addToGoogleCalendar();
-                }}
-              >
-                Add Event to Google Calendar
-              </button>
-            )}
-            {userGmail && (
-              <button onClick={handleSignOut}>
-                Sign Out from Google Calendar
-              </button>
-            )}
-          </>
-        ) : (
-          <button onClick={signup}>Sign Up For Event</button>
-        )}
-        {eventAttendees.length > 0 && (
-          <div>
-            <h2>Event Attendees:</h2>
-            <ul>
-              {eventAttendees.map((attendee) => (
-                <li key={attendee.id}>
-                  {event.is_owner
-                    ? attendee.first_name +
-                      " " +
-                      attendee.last_name +
-                      " (" +
-                      attendee.email +
-                      ")"
-                    : attendee.first_name + " " + attendee.last_name}{" "}
-                  {event.is_owner && (
-                    <button
-                      onClick={() => removeAttendee(attendee.id)}
-                      disabled={
-                        buttonLoading && attendee.id === buttonAttendeeIdStatus
-                      }
-                    >
-                      {buttonLoading && attendee.id === buttonAttendeeIdStatus
-                        ? "Removing..."
-                        : "Remove Attendee from Event"}
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {eventAttendees.length === 0 && (
-          <p>No attendees yet. Be the first to sign up!</p>
-        )}
-      </main>
-    </div>
+      {event.is_signed_up ? (
+        <>
+          <p>You are signed up for this event!</p>
+          {userGmail ? (
+            <p>You are signed in with Google account: {userGmail}</p>
+          ) : (
+            <p>
+              You are not currently signed in with a Google account. Click the
+              'Add Event to Google Calendar' button below to sign in and add the
+              event to Google Calendar.
+            </p>
+          )}
+          <button onClick={unsign}>Remove Event</button>
+          {addedToCalendar ? (
+            <button disabled>Added to Google Calendar</button>
+          ) : (
+            <button
+              onClick={() => {
+                setAddToCalendarButtonClicked(true);
+                addToGoogleCalendar();
+              }}
+            >
+              Add Event to Google Calendar
+            </button>
+          )}
+          {userGmail && (
+            <button onClick={handleSignOut}>
+              Sign Out from Google Calendar
+            </button>
+          )}
+        </>
+      ) : (
+        <button onClick={signup}>Sign Up For Event</button>
+      )}
+      {eventAttendees.length > 0 && (
+        <div>
+          <h2>Event Attendees:</h2>
+          <ul>
+            {eventAttendees.map((attendee) => (
+              <li key={attendee.id}>
+                {event.is_owner
+                  ? attendee.first_name +
+                    " " +
+                    attendee.last_name +
+                    " (" +
+                    attendee.email +
+                    ")"
+                  : attendee.first_name + " " + attendee.last_name}{" "}
+                {event.is_owner && (
+                  <button
+                    onClick={() => removeAttendee(attendee.id)}
+                    disabled={
+                      buttonLoading && attendee.id === buttonAttendeeIdStatus
+                    }
+                  >
+                    {buttonLoading && attendee.id === buttonAttendeeIdStatus
+                      ? "Removing..."
+                      : "Remove Attendee from Event"}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {eventAttendees.length === 0 && (
+        <p>No attendees yet. Be the first to sign up!</p>
+      )}
+    </main>
   );
 };
 
