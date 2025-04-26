@@ -17,14 +17,14 @@ const Header = () => {
       <img src="/assets/logo.png" alt="Events Platform Logo" className="logo" />
       {/* <h1>Events Platform</h1> */}
       <section className="header-buttons">
-        <Link to="/browse-events">
-          <button className="header-button">Browse Events</button>
-        </Link>
-        <Link to="/my-events">
-          <button className="header-button">My Events</button>
-        </Link>
         {user ? (
           <>
+            <Link to="/browse-events">
+              <button className="header-button">Browse Events</button>
+            </Link>
+            <Link to="/my-events">
+              <button className="header-button">My Events</button>
+            </Link>
             <span className="welcome-message">
               Welcome, {user.first_name + " " + user.last_name}
             </span>
@@ -34,6 +34,9 @@ const Header = () => {
           </>
         ) : (
           <>
+            <Link to="/browse-events">
+              <button className="header-button">Browse Events</button>
+            </Link>
             <Link to="/login">
               <button className="header-button">Login</button>
             </Link>
@@ -51,23 +54,27 @@ const Header = () => {
       </button>
       {menuOpen && (
         <section className="header-buttons-phone">
-          <Link to="/browse-events">
-            <button className="header-button-phone">Browse Events</button>
-          </Link>
-          <Link to="/my-events">
-            <button className="header-button-phone">My Events</button>
-          </Link>
           {user ? (
             <>
               <span className="welcome-message-phone">
                 Welcome, {user.first_name + " " + user.last_name}
               </span>
+              <Link to="/browse-events">
+                <button className="header-button-phone">Browse Events</button>
+              </Link>
+              <Link to="/my-events">
+                <button className="header-button-phone">My Events</button>
+              </Link>
               <button onClick={logout} className="header-button-phone">
                 Logout
               </button>
             </>
           ) : (
             <>
+              <Link to="/browse-events">
+                <button className="header-button-phone">Browse Events</button>
+              </Link>
+
               <Link to="/login">
                 <button className="header-button-phone">Login</button>
               </Link>
