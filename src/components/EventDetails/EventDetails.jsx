@@ -358,32 +358,39 @@ const EventDetails = () => {
         <h1 className="event-title">{event.event_title}</h1>
       </header>
       <section className="event-content">
-        <img
-          className="event-image"
-          src={event.event_image_url}
-          alt={event.event_title}
-        />
-        <div className="event-data">
-          <p className="event-description">{event.event_description}</p>
-          <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
-          {event.event_date_end && (
-            <>
-              <p>End Time: {new Date(event.event_date_end).toLocaleString()}</p>
-              <p>
-                Duration: {getDuration(event.event_date, event.event_date_end)}
-              </p>
-            </>
-          )}
-          <p>Location: {event.event_location}</p>
-          <p>Organized by: {event.event_organizer}</p>
-          <a
-            href={event.event_organizer_website}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {event.event_organizer_website}
-          </a>
-        </div>
+        <main className="event-main">
+          <img
+            className="event-image"
+            src={event.event_image_url}
+            alt={event.event_title}
+          />
+          <div className="event-data">
+            <h4>Event Information</h4>
+            <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
+            {event.event_date_end && (
+              <>
+                <p>
+                  End Time: {new Date(event.event_date_end).toLocaleString()}
+                </p>
+                <p>
+                  Duration:{" "}
+                  {getDuration(event.event_date, event.event_date_end)}
+                </p>
+              </>
+            )}
+            <p>Location: {event.event_location}</p>
+            <p>Organized by: {event.event_organizer}</p>
+            <a
+              href={event.event_organizer_website}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {event.event_organizer_website}
+            </a>
+          </div>
+        </main>
+        <h4>Description</h4>
+        <p className="event-description">{event.event_description}</p>
       </section>
 
       {event.is_signed_up ? (

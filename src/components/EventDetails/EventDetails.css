@@ -26,11 +26,15 @@
 
 .event-image {
   width: 60%;
-  height: 100%;
   border-radius: 10px;
 }
 
 .event-content {
+  /* display: flex; */
+  /* flex-direction: row; */
+}
+
+.event-main {
   display: flex;
   flex-direction: row;
 }
@@ -39,6 +43,7 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
+  width: 100%;
 }
 
 .event-data p {
@@ -47,10 +52,18 @@
   color: #333;
 }
 
+.event-content h4 {
+  font-size: clamp(16px, 5vw, 32px);
+  font-weight: bold;
+  color: #ff4040;
+  margin: 0;
+  text-align: center;
+}
+
 .event-description {
   font-size: 20px;
   min-height: 150px;
-  background-color: #ccc673;
+  /* background-color: #ccc673; */
 }
 
 .back-button {
@@ -117,6 +130,11 @@
   }
 
   .event-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-main {
     display: flex;
     flex-direction: column;
   }
