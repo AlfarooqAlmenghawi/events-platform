@@ -204,6 +204,10 @@ const CreateEvent = () => {
               required
             />
           </div>
+          <h2>
+            Note: Your Account Name and Email will be used as the event
+            organizer.
+          </h2>
           <div className="title-and-input">
             <p>Organizer Name:</p>
             <input type="text" placeholder={user.name} disabled />
@@ -243,7 +247,7 @@ const CreateEvent = () => {
             />
           </div>
           <div className="title-and-input">
-            <p>Event Banner:</p>
+            <p>Event Banner: (Choose File or Drag and Drop)</p>
             <input
               type="file"
               accept="image/*"
@@ -254,15 +258,20 @@ const CreateEvent = () => {
                   setImageURL(URL.createObjectURL(file)); // For preview
                 }
               }}
+              className="file-input"
+              required
             />
           </div>
 
           {imageURL && (
-            <img
-              src={imageURL}
-              alt="Event Banner Preview"
-              style={{ maxWidth: "100%", marginTop: "10px" }}
-            />
+            <>
+              <p>Banner Preview:</p>
+              <img
+                src={imageURL}
+                alt="Event Banner Preview"
+                style={{ maxWidth: "100%", marginTop: "10px" }}
+              />
+            </>
           )}
           <div className="create-event-form-button-div">
             <button
