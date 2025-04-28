@@ -165,7 +165,7 @@ const MyEvents = () => {
                       />
                     )}
                     <div className="my-event-info">
-                      <p>{event.event_description}</p>
+                      {/* <p>{event.event_description}</p> */}
                       <p>
                         Start Time:{" "}
                         {new Date(event.event_date).toLocaleString()}
@@ -227,7 +227,7 @@ const MyEvents = () => {
                       />
                     )}
                     <div className="my-event-info">
-                      <p>{event.event_description}</p>
+                      {/* <p>{event.event_description}</p> */}
                       <p>
                         Start Time:{" "}
                         {new Date(event.event_date).toLocaleString()}

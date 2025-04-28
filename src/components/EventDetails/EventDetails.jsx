@@ -1,13 +1,15 @@
 import "./EventDetails.css";
 
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { gapi } from "gapi-script";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 const EventDetails = () => {
+  const { user, logout } = useContext(AuthContext);
   const { event_id } = useParams();
   const [event, setEvent] = useState(null);
   const [eventAttendees, setEventAttendees] = useState([]);
@@ -329,9 +331,9 @@ const EventDetails = () => {
     fetchEvent();
   }, [event_id, isSignedUp]);
 
-  if (loading) return <p>Loading event details...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!event) return <p>Event not found.</p>;
+  if (loading) return <p className="event">Loading event details...</p>;
+  if (error) return <p className="event">Error: {error.message}</p>;
+  if (!event) return <p className="event">Event not found.</p>;
 
   return (
     <main className="event">
@@ -392,74 +394,137 @@ const EventDetails = () => {
         <h4>Description</h4>
         <p className="event-description">{event.event_description}</p>
       </section>
-
-      {event.is_signed_up ? (
+      <h4>Register</h4>
+      {user ? (
         <>
-          <p>You are signed up for this event!</p>
-          {userGmail ? (
-            <p>You are signed in with Google account: {userGmail}</p>
+          {event.is_signed_up ? (
+            <>
+              <p>
+                You are currently signed up for this event. The event organiser
+                can see that you have done so.
+              </p>
+              <button onClick={unsign} className="header-button">
+                Remove me from this Event
+              </button>
+              {userGmail ? (
+                <p>
+                  You are currently signed in with Google account: {userGmail}{" "}
+                  Click 'Add Event to Google Calendar' to add this event to your
+                  calendar on Google.
+                </p>
+              ) : (
+                <p>
+                  You are not currently signed in with a Google account. Click
+                  the 'Add Event to Google Calendar' button below to sign in and
+                  add the event to Google Calendar.
+                </p>
+              )}
+              {addedToCalendar ? (
+                <button disabled className="header-button">
+                  Added to Google Calendar
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setAddToCalendarButtonClicked(true);
+                    addToGoogleCalendar();
+                  }}
+                  className="header-button"
+                >
+                  Add Event to Google Calendar
+                </button>
+              )}
+              {userGmail && (
+                <button onClick={handleSignOut} className="header-button">
+                  Sign Out from Google Calendar
+                </button>
+              )}
+            </>
           ) : (
-            <p>
-              You are not currently signed in with a Google account. Click the
-              'Add Event to Google Calendar' button below to sign in and add the
-              event to Google Calendar.
-            </p>
-          )}
-          <button onClick={unsign}>Remove Event</button>
-          {addedToCalendar ? (
-            <button disabled>Added to Google Calendar</button>
-          ) : (
-            <button
-              onClick={() => {
-                setAddToCalendarButtonClicked(true);
-                addToGoogleCalendar();
-              }}
-            >
-              Add Event to Google Calendar
+            <button onClick={signup} className="header-button">
+              Sign Up For Event
             </button>
           )}
-          {userGmail && (
-            <button onClick={handleSignOut}>
-              Sign Out from Google Calendar
-            </button>
+          {eventAttendees.length > 0 && (
+            <div>
+              <h4>Event Attendees</h4>
+              {event.is_owner ? (
+                <ul className="attendees">
+                  {eventAttendees.map((attendee) => (
+                    <li key={attendee.id} className="attendee-list">
+                      {event.is_owner
+                        ? attendee.first_name +
+                          " " +
+                          attendee.last_name +
+                          " (" +
+                          attendee.email +
+                          ")"
+                        : attendee.first_name + " " + attendee.last_name}{" "}
+                      {event.is_owner && (
+                        <button
+                          onClick={() => removeAttendee(attendee.id)}
+                          disabled={
+                            buttonLoading &&
+                            attendee.id === buttonAttendeeIdStatus
+                          }
+                          className="event-button"
+                        >
+                          {buttonLoading &&
+                          attendee.id === buttonAttendeeIdStatus
+                            ? "Removing..."
+                            : "Remove Attendee from Event"}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>
+                  {eventAttendees.map((attendee, index, array) => {
+                    return (
+                      <span key={attendee.id}>
+                        {attendee.first_name + " " + attendee.last_name}
+                        {index === array.length - 1
+                          ? ""
+                          : index === array.length - 2
+                          ? " and "
+                          : ", "}
+                      </span>
+                    );
+                  })}{" "}
+                </p>
+              )}
+            </div>
+          )}
+          {eventAttendees.length === 0 && (
+            <p>No attendees yet. Be the first to sign up!</p>
           )}
         </>
       ) : (
-        <button onClick={signup}>Sign Up For Event</button>
-      )}
-      {eventAttendees.length > 0 && (
         <div>
-          <h2>Event Attendees:</h2>
-          <ul>
-            {eventAttendees.map((attendee) => (
-              <li key={attendee.id}>
-                {event.is_owner
-                  ? attendee.first_name +
-                    " " +
-                    attendee.last_name +
-                    " (" +
-                    attendee.email +
-                    ")"
-                  : attendee.first_name + " " + attendee.last_name}{" "}
-                {event.is_owner && (
-                  <button
-                    onClick={() => removeAttendee(attendee.id)}
-                    disabled={
-                      buttonLoading && attendee.id === buttonAttendeeIdStatus
-                    }
-                  >
-                    {buttonLoading && attendee.id === buttonAttendeeIdStatus
-                      ? "Removing..."
-                      : "Remove Attendee from Event"}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+          <aside>
+            <h3>Sign up to view event details</h3>
+            <p>
+              Please sign up or log in to view the event details and register
+              for the event.
+            </p>
+          </aside>
+          <div className="sign-in-div">
+            <button
+              onClick={() => navigate("/login")}
+              className="header-button"
+            >
+              Login
+            </button>
+            <h1>Or</h1>
+            <button
+              onClick={() => navigate("/signup")}
+              className="header-button"
+            >
+              Sign Up
+            </button>
+          </div>
         </div>
-      )}
-      {eventAttendees.length === 0 && (
-        <p>No attendees yet. Be the first to sign up!</p>
       )}
     </main>
   );

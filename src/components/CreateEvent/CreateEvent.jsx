@@ -25,7 +25,7 @@ const CreateEvent = () => {
 
   if (!token) {
     console.error("No token found in local storage");
-    return <p>Please log in to create an event.</p>;
+    return <p className="event">Please log in to create an event.</p>;
   }
 
   const [user, setUser] = useState({
@@ -85,8 +85,8 @@ const CreateEvent = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Create Event</h1>
+    <div className="event">
+      <h1 className="browse-events-page-title">Create Event</h1>
       {/* Add your form and logic here */}
       <section className="create-event-form">
         <form

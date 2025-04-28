@@ -52,17 +52,20 @@
   color: #333;
 }
 
-.event-content h4 {
+.event h4 {
   font-size: clamp(16px, 5vw, 32px);
   font-weight: bold;
   color: #ff4040;
   margin: 0;
   text-align: center;
+  margin-top: 10px;
 }
 
 .event-description {
   font-size: 20px;
   min-height: 150px;
+  width: 90%;
+  margin: 0;
   /* background-color: #ccc673; */
 }
 
@@ -100,6 +103,48 @@
   margin: 0;
   text-align: center;
   grid-area: event-title;
+}
+
+.sign-in-div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: auto;
+  width: 30%;
+}
+
+aside {
+  margin: auto;
+  text-align: center;
+}
+
+.attendees {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  margin: 0;
+  width: 100%;
+  padding: 0;
+}
+
+.attendee-list {
+  display: flex;
+  margin: 0;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.event-button {
+  font-family: "SpecialGothic", sans-serif;
+  /* margin: 10px; */
+  /* padding: 10px 20px; */
+  background-color: #ff4040;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  /* width: clamp(0px, 1000vw, 100px); */
 }
 
 @media screen and (max-width: 885px) {
