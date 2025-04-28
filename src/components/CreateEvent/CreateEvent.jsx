@@ -1,3 +1,5 @@
+import "./CreateEvent.css";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -133,94 +135,128 @@ const CreateEvent = () => {
             }
           }}
         >
-          <input
-            type="text"
-            placeholder="Event Title"
-            value={eventDetails.event_title}
-            onChange={(e) =>
-              setEventDetails({ ...eventDetails, event_title: e.target.value })
-            }
-            required
-          />
-          <textarea
-            placeholder="Event Description"
-            value={eventDetails.event_description}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_description: e.target.value,
-              })
-            }
-            required
-          ></textarea>
-          <input
-            type="datetime-local"
-            value={eventDetails.event_date}
-            onChange={(e) =>
-              setEventDetails({ ...eventDetails, event_date: e.target.value })
-            }
-            required
-          />
-          <input
-            type="datetime-local"
-            value={eventDetails.event_date_end}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_date_end: e.target.value,
-              })
-            }
-            required
-          />
-          <input
-            type="text"
-            placeholder="Event Location"
-            value={eventDetails.event_location}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_location: e.target.value,
-              })
-            }
-            required
-          />
-          <input type="text" placeholder={user.name} disabled />
-          <input type="text" placeholder={user.email} disabled />
-          <input
-            type="text"
-            placeholder="Organizer Phone"
-            value={eventDetails.event_organizer_phone}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_organizer_phone: e.target.value,
-              })
-            }
-            required
-          />
-          <input
-            type="url"
-            placeholder="Organizer Website"
-            value={eventDetails.event_organizer_website}
-            onChange={(e) =>
-              setEventDetails({
-                ...eventDetails,
-                event_organizer_website: e.target.value,
-              })
-            }
-            required
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setImageFile(file);
-              if (file) {
-                setImageURL(URL.createObjectURL(file)); // For preview
+          <div className="title-and-input">
+            <p>Event Title:</p>
+            <input
+              type="text"
+              placeholder="Event Title"
+              value={eventDetails.event_title}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_title: e.target.value,
+                })
               }
-            }}
-          />
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Event Description:</p>
+            <textarea
+              placeholder="Event Description"
+              value={eventDetails.event_description}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_description: e.target.value,
+                })
+              }
+              required
+            ></textarea>
+          </div>
+          <div className="title-and-input">
+            <p>Event Date:</p>
+            <input
+              type="datetime-local"
+              value={eventDetails.event_date}
+              onChange={(e) =>
+                setEventDetails({ ...eventDetails, event_date: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Event End Date:</p>
+            <input
+              type="datetime-local"
+              value={eventDetails.event_date_end}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_date_end: e.target.value,
+                })
+              }
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Event Location:</p>
+            <input
+              type="text"
+              placeholder="Event Location"
+              value={eventDetails.event_location}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_location: e.target.value,
+                })
+              }
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Organizer Name:</p>
+            <input type="text" placeholder={user.name} disabled />
+          </div>
+          <div className="title-and-input">
+            <p>Organizer Email:</p>
+            <input type="text" placeholder={user.email} disabled />
+          </div>
+          <div className="title-and-input">
+            <p>Organizer Phone:</p>
+            <input
+              type="text"
+              placeholder="Organizer Phone"
+              value={eventDetails.event_organizer_phone}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_organizer_phone: e.target.value,
+                })
+              }
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Organizer Website:</p>
+            <input
+              type="url"
+              placeholder="Organizer Website"
+              value={eventDetails.event_organizer_website}
+              onChange={(e) =>
+                setEventDetails({
+                  ...eventDetails,
+                  event_organizer_website: e.target.value,
+                })
+              }
+              required
+            />
+          </div>
+          <div className="title-and-input">
+            <p>Event Banner:</p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setImageFile(file);
+                if (file) {
+                  setImageURL(URL.createObjectURL(file)); // For preview
+                }
+              }}
+            />
+          </div>
+
           {imageURL && (
             <img
               src={imageURL}
@@ -228,10 +264,15 @@ const CreateEvent = () => {
               style={{ maxWidth: "100%", marginTop: "10px" }}
             />
           )}
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Creating..." : "Create Event"}
-          </button>
+          <div className="create-event-form-button-div">
+            <button
+              type="submit"
+              disabled={loading}
+              className="create-event-form-button"
+            >
+              {loading ? "Creating..." : "Create Event"}
+            </button>
+          </div>
           {error && <p>{error}</p>}
         </form>
       </section>
