@@ -61,15 +61,17 @@ const BrowseEvents = () => {
 
   return (
     <main className="browse-events" id="main-content" tabIndex="-1">
-      <h1 className="browse-events-page-title">Browse Events</h1>
-      <p className="browse-events-page-description">
+      <h1 className="browse-events-page-title" tabIndex="1">
+        Browse Events
+      </h1>
+      <p className="browse-events-page-description" tabIndex="2">
         Here you can browse all the events available.
       </p>
       {loading && <p>Loading events...</p>}
-      <main className="browse-events-list">
+      <section className="browse-events-list" tabIndex="3">
         {error && <p>Error fetching events: {error.message}</p>}
         {events.map((event) => (
-          <div key={event.id} className="browse-event-card">
+          <article key={event.id} className="browse-event-card">
             <h2>{event.event_title}</h2>
             {event.event_image_url ? (
               <img src={event.event_image_url} alt={event.event_title} />
@@ -79,7 +81,7 @@ const BrowseEvents = () => {
                 alt="Default Event"
               />
             )}
-            <div className="browse-event-info">
+            <section className="browse-event-info">
               {/* <p>{event.event_description}</p> */}
               <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
               <p>
@@ -89,7 +91,7 @@ const BrowseEvents = () => {
                 Location: {event.event_location}
               </p>
               <p>By {event.event_organizer}</p>
-            </div>
+            </section>
             <Link to={event.event_organizer_website} target="_blank">
               Website ({event.event_organizer_website})
             </Link>
@@ -99,12 +101,13 @@ const BrowseEvents = () => {
                 navigate(`/browse-events/${event.id}`);
               }}
               style={{ fontFamily: "SpecialGothic" }}
+              aria-label={`View more details about ${event.event_title}`}
             >
               View More Details
             </button>
-          </div>
+          </article>
         ))}
-      </main>
+      </section>
     </main>
   );
 };

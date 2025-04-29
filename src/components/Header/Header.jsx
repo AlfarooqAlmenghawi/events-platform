@@ -1,4 +1,4 @@
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import Cookies from "js-cookie";
@@ -7,7 +7,6 @@ import "./Header.css";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {}, [user]);
@@ -15,15 +14,23 @@ const Header = () => {
   return (
     <header className="header">
       <img src="/assets/logo.png" alt="Events Platform Logo" className="logo" />
-      {/* <h1>Events Platform</h1> */}
+
       <section className="header-buttons">
         {user ? (
           <>
-            <Link to="/browse-events">
-              <button className="header-button">Browse Events</button>
+            <Link
+              to="/browse-events"
+              className="header-button"
+              aria-label="Go to browse events page"
+            >
+              Browse Events
             </Link>
-            <Link to="/my-events">
-              <button className="header-button">My Events</button>
+            <Link
+              to="/my-events"
+              className="header-button"
+              aria-label="Go to my events page"
+            >
+              My Events
             </Link>
             <span className="welcome-message">
               Welcome, {user.first_name + " " + user.last_name}
@@ -34,24 +41,39 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link to="/browse-events">
-              <button className="header-button">Browse Events</button>
+            <Link
+              to="/browse-events"
+              className="header-button"
+              aria-label="Go to browse events page"
+            >
+              Browse Events
             </Link>
-            <Link to="/login">
-              <button className="header-button">Login</button>
+            <Link
+              to="/login"
+              className="header-button"
+              aria-label="Go to login page"
+            >
+              Login
             </Link>
-            <Link to="/signup">
-              <button className="header-button">Sign Up</button>
+            <Link
+              to="/signup"
+              className="header-button"
+              aria-label="Go to sign up page"
+            >
+              Sign Up
             </Link>
           </>
         )}
       </section>
+
       <button
         className="open-menu-button-phone"
         onClick={() => setMenuOpen(!menuOpen)}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
       >
         {menuOpen ? "Close Menu" : "Open Menu"}
       </button>
+
       {menuOpen && (
         <section className="header-buttons-phone">
           {user ? (
@@ -59,27 +81,50 @@ const Header = () => {
               <span className="welcome-message-phone">
                 Welcome, {user.first_name + " " + user.last_name}
               </span>
-              <Link to="/browse-events">
-                <button className="header-button-phone">Browse Events</button>
+              <Link
+                to="/browse-events"
+                className="header-button-phone"
+                aria-label="Go to browse events page"
+              >
+                Browse Events
               </Link>
-              <Link to="/my-events">
-                <button className="header-button-phone">My Events</button>
+              <Link
+                to="/my-events"
+                className="header-button-phone"
+                aria-label="Go to my events page"
+              >
+                My Events
               </Link>
-              <button onClick={logout} className="header-button-phone">
+              <button
+                onClick={logout}
+                className="header-button-phone"
+                aria-label="Log out of your account"
+              >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/browse-events">
-                <button className="header-button-phone">Browse Events</button>
+              <Link
+                to="/browse-events"
+                className="header-button-phone"
+                aria-label="Go to browse events page"
+              >
+                Browse Events
               </Link>
-
-              <Link to="/login">
-                <button className="header-button-phone">Login</button>
+              <Link
+                to="/login"
+                className="header-button-phone"
+                aria-label="Go to login page"
+              >
+                Login
               </Link>
-              <Link to="/signup">
-                <button className="header-button-phone">Sign Up</button>
+              <Link
+                to="/signup"
+                className="header-button-phone"
+                aria-label="Go to sign up page"
+              >
+                Sign Up
               </Link>
             </>
           )}
