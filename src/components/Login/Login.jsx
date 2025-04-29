@@ -50,18 +50,22 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
+    <div className="event">
+      <h2 className="browse-events-page-title">Login</h2>
       <form onSubmit={loginUser}>
-        <div>
-          <label htmlFor="email">Email: </label>
+        <div className="title-and-input">
+          <label htmlFor="email">Email </label>
           <input type="email" id="email" name="email" required />
         </div>
-        <div>
-          <label htmlFor="password">Password: </label>
+        <div className="title-and-input">
+          <label htmlFor="password">Password </label>
           <input type="password" id="password" name="password" required />
         </div>
-        <button type="submit">Login</button>
+        <div className="create-event-form-button-div">
+          <button className="create-event-form-button" type="submit">
+            Login
+          </button>
+        </div>
       </form>
       {message && <p style={{ color: "green" }}>{message}</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}

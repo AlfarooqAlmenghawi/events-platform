@@ -1,8 +1,10 @@
 const VerifyEmail = () => {
   return (
-    <div>
-      <h1>Verify Email</h1>
-      <p>Please check your email for a verification link.</p>
+    <div className="event">
+      <h1 className="browse-events-page-title">Verify Email</h1>
+      <p style={{ textAlign: "center" }}>
+        Please check your email for a verification link.
+      </p>
     </div>
   );
 };

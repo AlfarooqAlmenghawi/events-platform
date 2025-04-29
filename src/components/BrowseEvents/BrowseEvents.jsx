@@ -60,7 +60,7 @@ const BrowseEvents = () => {
   }, []);
 
   return (
-    <div className="browse-events">
+    <main className="browse-events" id="main-content" tabIndex="-1">
       <h1 className="browse-events-page-title">Browse Events</h1>
       <p className="browse-events-page-description">
         Here you can browse all the events available.
@@ -105,7 +105,7 @@ const BrowseEvents = () => {
           </div>
         ))}
       </main>
-    </div>
+    </main>
   );
 };
 export default BrowseEvents;

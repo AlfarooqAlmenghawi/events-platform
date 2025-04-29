@@ -30,7 +30,7 @@ const EditEvent = () => {
 
   if (!token) {
     console.error("No token found in local storage");
-    return <p>Please log in to edit an event or yours.</p>;
+    return <p className="event">Please log in to edit an event or yours.</p>;
   }
 
   const [user, setUser] = useState({
@@ -172,7 +172,7 @@ const EditEvent = () => {
             >
               {" "}
               <div className="title-and-input">
-                <p>Event Title:</p>
+                <label htmlFor="eventTitle">Event Title:</label>
                 <input
                   type="text"
                   placeholder="Event Title"

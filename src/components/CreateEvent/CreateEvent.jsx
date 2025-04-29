@@ -87,9 +87,8 @@ const CreateEvent = () => {
   }, []);
 
   return (
-    <div className="event">
+    <main className="event" id="main-content" tabIndex="-1">
       <h1 className="browse-events-page-title">Create Event</h1>
-      {/* Add your form and logic here */}
       <section className="create-event-form">
         <form
           onSubmit={async (e) => {
@@ -103,14 +102,13 @@ const CreateEvent = () => {
             setLoading(true);
 
             try {
-              // Upload the image first
               const uploadedImageURL = await uploadImage();
 
               const response = await axios.post(
                 "https://events-platform-backend-production.up.railway.app/events",
                 {
                   ...eventDetails,
-                  event_image_url: uploadedImageURL, // include image URL
+                  event_image_url: uploadedImageURL,
                 },
                 {
                   headers: {
@@ -135,9 +133,11 @@ const CreateEvent = () => {
             }
           }}
         >
+          {/* Event Title */}
           <div className="title-and-input">
-            <p>Event Title:</p>
+            <label htmlFor="eventTitle">Event Title:</label>
             <input
+              id="eventTitle"
               type="text"
               placeholder="Event Title"
               value={eventDetails.event_title}
@@ -150,9 +150,12 @@ const CreateEvent = () => {
               required
             />
           </div>
+
+          {/* Event Description */}
           <div className="title-and-input">
-            <p>Event Description:</p>
+            <label htmlFor="eventDescription">Event Description</label>
             <textarea
+              id="eventDescription"
               placeholder="Event Description"
               value={eventDetails.event_description}
               onChange={(e) =>
@@ -164,9 +167,12 @@ const CreateEvent = () => {
               required
             ></textarea>
           </div>
+
+          {/* Event Start Date */}
           <div className="title-and-input">
-            <p>Event Date:</p>
+            <label htmlFor="eventDate">Event Date</label>
             <input
+              id="eventDate"
               type="datetime-local"
               value={eventDetails.event_date}
               onChange={(e) =>
@@ -175,9 +181,12 @@ const CreateEvent = () => {
               required
             />
           </div>
+
+          {/* Event End Date */}
           <div className="title-and-input">
-            <p>Event End Date:</p>
+            <label htmlFor="eventDateEnd">Event End Date</label>
             <input
+              id="eventDateEnd"
               type="datetime-local"
               value={eventDetails.event_date_end}
               onChange={(e) =>
@@ -189,9 +198,12 @@ const CreateEvent = () => {
               required
             />
           </div>
+
+          {/* Event Location */}
           <div className="title-and-input">
-            <p>Event Location:</p>
+            <label htmlFor="eventLocation">Event Location</label>
             <input
+              id="eventLocation"
               type="text"
               placeholder="Event Location"
               value={eventDetails.event_location}
@@ -204,21 +216,39 @@ const CreateEvent = () => {
               required
             />
           </div>
+
           <h2>
             Note: Your Account Name and Email will be used as the event
             organizer.
           </h2>
+
+          {/* Organizer Name (disabled input) */}
           <div className="title-and-input">
-            <p>Organizer Name:</p>
-            <input type="text" placeholder={user.name} disabled />
-          </div>
-          <div className="title-and-input">
-            <p>Organizer Email:</p>
-            <input type="text" placeholder={user.email} disabled />
-          </div>
-          <div className="title-and-input">
-            <p>Organizer Phone:</p>
+            <label htmlFor="organizerName">Organizer Name</label>
             <input
+              id="organizerName"
+              type="text"
+              placeholder={user.name}
+              disabled
+            />
+          </div>
+
+          {/* Organizer Email (disabled input) */}
+          <div className="title-and-input">
+            <label htmlFor="organizerEmail">Organizer Email</label>
+            <input
+              id="organizerEmail"
+              type="text"
+              placeholder={user.email}
+              disabled
+            />
+          </div>
+
+          {/* Organizer Phone */}
+          <div className="title-and-input">
+            <label htmlFor="organizerPhone">Organizer Phone</label>
+            <input
+              id="organizerPhone"
               type="text"
               placeholder="Organizer Phone"
               value={eventDetails.event_organizer_phone}
@@ -231,9 +261,12 @@ const CreateEvent = () => {
               required
             />
           </div>
+
+          {/* Organizer Website */}
           <div className="title-and-input">
-            <p>Organizer Website:</p>
+            <label htmlFor="organizerWebsite">Organizer Website</label>
             <input
+              id="organizerWebsite"
               type="url"
               placeholder="Organizer Website"
               value={eventDetails.event_organizer_website}
@@ -246,16 +279,21 @@ const CreateEvent = () => {
               required
             />
           </div>
+
+          {/* Event Banner Upload */}
           <div className="title-and-input">
-            <p>Event Banner: (Choose File or Drag and Drop)</p>
+            <label htmlFor="eventBanner">
+              Event Banner (Choose File or Drag and Drop)
+            </label>
             <input
+              id="eventBanner"
               type="file"
               accept="image/*"
               onChange={(e) => {
                 const file = e.target.files[0];
                 setImageFile(file);
                 if (file) {
-                  setImageURL(URL.createObjectURL(file)); // For preview
+                  setImageURL(URL.createObjectURL(file));
                 }
               }}
               className="file-input"
@@ -263,16 +301,19 @@ const CreateEvent = () => {
             />
           </div>
 
+          {/* Image Preview */}
           {imageURL && (
             <>
               <p>Banner Preview:</p>
               <img
                 src={imageURL}
-                alt="Event Banner Preview"
+                alt="Preview of uploaded event banner"
                 style={{ maxWidth: "100%", marginTop: "10px" }}
               />
             </>
           )}
+
+          {/* Submit Button */}
           <div className="create-event-form-button-div">
             <button
               type="submit"
@@ -282,10 +323,16 @@ const CreateEvent = () => {
               {loading ? "Creating..." : "Create Event"}
             </button>
           </div>
-          {error && <p>{error}</p>}
+
+          {/* Error Message */}
+          {error && (
+            <p role="alert" aria-live="assertive" style={{ color: "red" }}>
+              {error}
+            </p>
+          )}
         </form>
       </section>
-    </div>
+    </main>
   );
 };
 

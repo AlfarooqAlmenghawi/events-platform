@@ -1,4 +1,10 @@
-.create-event-form p {
+/* .create-event-form label {
+  font-size: 30px;
+  color: #333;
+  margin: 0;
+} */
+
+label {
   font-size: 30px;
   color: #333;
   margin: 0;
@@ -40,6 +46,12 @@ input:focus,
 textarea:focus {
   outline: none;
   border: 1px dashed #76ff40;
+}
+
+input:disabled,
+textarea:disabled {
+  background-color: #d4d4d4;
+  border: 1px solid #ccc;
 }
 
 .create-event-form-button-div {

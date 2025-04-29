@@ -39,26 +39,26 @@ const SignUp = () => {
   };
 
   return (
-    <div className="signup">
-      <h1>Sign Up</h1>
+    <div className="event">
+      <h1 className="browse-events-page-title">Sign Up</h1>
       <form onSubmit={signUpUser}>
-        <div>
+        <div className="title-and-input">
           <label htmlFor="first_name">First Name: </label>
           <input type="text" id="first_name" name="first_name" required />
         </div>
-        <div>
+        <div className="title-and-input">
           <label htmlFor="last_name">Last Name: </label>
           <input type="text" id="last_name" name="last_name" required />
         </div>
-        <div>
+        <div className="title-and-input">
           <label htmlFor="email">Email: </label>
           <input type="email" id="email" name="email" required />
         </div>
-        <div>
+        <div className="title-and-input">
           <label htmlFor="password">Password: </label>
           <input type="password" id="password" name="password" required />
         </div>
-        <div>
+        <div className="title-and-input">
           <label htmlFor="confirm_password">Confirm Password: </label>
           <input
             type="password"
@@ -67,7 +67,16 @@ const SignUp = () => {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <div className="create-event-form-button-div">
+          {/* <p>
+            By signing up, you agree to our{" "}
+            <a href="/terms-and-conditions">Terms and Conditions</a> and{" "}
+            <a href="/privacy-policy">Privacy Policy</a>.
+          </p> */}
+          <button className="create-event-form-button" type="submit">
+            Sign Up
+          </button>
+        </div>
       </form>
     </div>
   );

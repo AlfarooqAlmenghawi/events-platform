@@ -31,13 +31,20 @@ const VerifyEmailCode = () => {
   }, [verification_code]);
 
   return (
-    <div>
-      <h1>Verifying your email...</h1>
+    <div className="event" style={{ textAlign: "center" }}>
+      <h1 className="browse-events-page-title">Verifying your email...</h1>
+      <p style={{ textAlign: "center" }}>
+        Please check your email for a verification link.
+      </p>
+      <p style={{ textAlign: "center" }}>
+        If you have already verified your email, please log in.
+      </p>
       {error && <p>{error}</p>}
       {!error && <p>If you are not redirected, please check your email.</p>}
-      <p>Redirecting to login page...</p>
+      {/* <p>Redirecting to login page...</p> */}
       <p>
-        If you are not redirected, please click <a href="/login">here</a>.
+        If you are not redirected, after a few seconds please click{" "}
+        <a href="/login">here</a>.
       </p>
       <p>Thank you for your patience!</p>
     </div>
