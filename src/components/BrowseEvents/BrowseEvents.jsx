@@ -40,7 +40,6 @@ const BrowseEvents = () => {
       const response = await axios.get(
         "https://events-platform-backend-production.up.railway.app/events"
       );
-      console.log("Fetched events:", response.data);
       setEvents(response.data);
     } catch (err) {
       setError(err);

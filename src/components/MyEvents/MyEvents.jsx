@@ -41,7 +41,6 @@ const MyEvents = () => {
     const fetchUserEvents = async () => {
       const token = Cookies.get("authToken");
 
-      console.log("Fetching user's events...");
       setLoading(true);
       setError(null);
       try {
@@ -53,7 +52,6 @@ const MyEvents = () => {
             },
           }
         );
-        console.log("Fetched events:", response.data);
         setUserEvents(response.data.events);
       } catch (error) {
         console.warn(error);
@@ -76,7 +74,6 @@ const MyEvents = () => {
     const fetchUserCreatedEvents = async () => {
       const token = Cookies.get("authToken");
 
-      console.log("Fetching user's created events...");
       setLoading(true);
       setError(null);
       try {
@@ -88,7 +85,6 @@ const MyEvents = () => {
             },
           }
         );
-        console.log("Fetched created events:", response.data);
         setUserCreatedEvents(response.data.events);
       } catch (error) {
         console.warn(error);

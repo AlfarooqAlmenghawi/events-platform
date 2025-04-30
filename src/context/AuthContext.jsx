@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }) => {
             }
           );
 
-          console.log("Fresh user data from DB:", response.data);
-
           setUser(response.data); // Set fresh DB user
         } catch (err) {
           console.error(

@@ -132,7 +132,7 @@ body {
     z-index: 1000;
     gap: 10px;
     align-items: center;
-    width: 200px; /* Give it a proper width */
+    /* width: 200px; Give it a proper width */
   }
 
   .header-button-phone {
@@ -147,5 +147,6 @@ body {
     width: 200px;
     text-align: center;
     cursor: pointer;
+    text-decoration: none;
   }
 }
