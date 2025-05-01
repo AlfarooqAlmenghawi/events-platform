@@ -107,7 +107,7 @@ body {
   }
 
   .open-menu-button-phone {
-    display: block; /* Always show the "Menu" button */
+    display: block;
     background-color: #ff4040;
     border: none;
     border-radius: 5px;
@@ -134,12 +134,11 @@ body {
     width: 45%;
     gap: 10px;
     align-items: center;
-    /* width: 200px; Give it a proper width */
   }
 
   .header-button-phone {
-    width: 100%; /* Allow it to be responsive */
-    max-width: 200px; /* Limit maximum width */
+    width: 100%;
+    max-width: 200px;
     background-color: #ff4040;
     color: white;
     border: none;
@@ -150,11 +149,11 @@ body {
     text-align: center;
     cursor: pointer;
     text-decoration: none;
-    box-sizing: border-box; /* Ensure padding is included in the width */
+    box-sizing: border-box;
   }
 
   .header-buttons-phone button {
-    width: 100%; /* Allow it to be responsive */
+    width: 100%;
     background-color: #ff4040;
     color: white;
     border: none;

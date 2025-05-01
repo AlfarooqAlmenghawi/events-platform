@@ -40,6 +40,7 @@ const BrowseEvents = () => {
 
   const fetchEvents = async () => {
     try {
+      setLoading(true);
       const params = new URLSearchParams();
 
       if (searchTerm) params.append("search", searchTerm);
@@ -50,6 +51,7 @@ const BrowseEvents = () => {
         `https://events-platform-backend-production.up.railway.app/events?${params.toString()}`
       );
       setEvents(response.data);
+      setLoading(false);
     } catch (err) {
       setError(err);
     } finally {
@@ -121,45 +123,56 @@ const BrowseEvents = () => {
         <button onClick={fetchEvents}>Search Events</button>
       </section>
       {loading && <p>Loading events...</p>}
+      {error && <p>Error fetching events: {error.message}</p>}
+      {events.length === 0 && !loading && (
+        <p>No events found matching your criteria.</p>
+      )}
+      {events.length > 0 && (
+        <p>
+          Found {events.length} event
+          {events.length > 1 ? "s" : ""} matching your criteria.
+        </p>
+      )}
       <section className="browse-events-list" tabIndex="3">
-        {error && <p>Error fetching events: {error.message}</p>}
-        {events.map((event) => (
-          <article key={event.id} className="browse-event-card">
-            <h2>{event.event_title}</h2>
-            {event.event_image_url ? (
-              <img src={event.event_image_url} alt={event.event_title} />
-            ) : (
-              <img
-                src="https://hoqphugtdxjwawlawpzm.supabase.co/storage/v1/object/public/event-banners/1745446438551-b170870007dfa419295d949814474ab2_t.jpeg"
-                alt="Default Event"
-              />
-            )}
-            <section className="browse-event-info">
-              {/* <p>{event.event_description}</p> */}
-              <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
-              <p>
-                Duration: {getDuration(event.event_date, event.event_date_end)}
-              </p>
-              <p className="browse-event-location">
-                Location: {event.event_location}
-              </p>
-              <p>By {event.event_organizer}</p>
-            </section>
-            <Link to={event.event_organizer_website} target="_blank">
-              Website ({event.event_organizer_website})
-            </Link>
-            <br />
-            <button
-              onClick={() => {
-                navigate(`/browse-events/${event.id}`);
-              }}
-              style={{ fontFamily: "SpecialGothic" }}
-              aria-label={`View more details about ${event.event_title}`}
-            >
-              View More Details
-            </button>
-          </article>
-        ))}
+        {!loading &&
+          events.map((event) => (
+            <article key={event.id} className="browse-event-card">
+              <h2>{event.event_title}</h2>
+              {event.event_image_url ? (
+                <img src={event.event_image_url} alt={event.event_title} />
+              ) : (
+                <img
+                  src="https://hoqphugtdxjwawlawpzm.supabase.co/storage/v1/object/public/event-banners/1745446438551-b170870007dfa419295d949814474ab2_t.jpeg"
+                  alt="Default Event"
+                />
+              )}
+              <section className="browse-event-info">
+                {/* <p>{event.event_description}</p> */}
+                <p>Start Time: {new Date(event.event_date).toLocaleString()}</p>
+                <p>
+                  Duration:{" "}
+                  {getDuration(event.event_date, event.event_date_end)}
+                </p>
+                <p className="browse-event-location">
+                  Location: {event.event_location}
+                </p>
+                <p>By {event.event_organizer}</p>
+              </section>
+              <Link to={event.event_organizer_website} target="_blank">
+                Website ({event.event_organizer_website})
+              </Link>
+              <br />
+              <button
+                onClick={() => {
+                  navigate(`/browse-events/${event.id}`);
+                }}
+                style={{ fontFamily: "SpecialGothic" }}
+                aria-label={`View more details about ${event.event_title}`}
+              >
+                View More Details
+              </button>
+            </article>
+          ))}
       </section>
     </main>
   );

@@ -24,7 +24,7 @@
   width: 100%;
   align-items: center;
   grid-template-areas: "back-button event-title spoof";
-  grid-template-columns: 105px 1fr 105px; /* fixed | flexible | fixed */
+  grid-template-columns: 105px 1fr 105px;
   gap: 10px;
 }
 
@@ -174,7 +174,7 @@ aside {
     width: 100%;
     align-items: center;
     grid-template-areas: "back-button event-title spoof";
-    grid-template-columns: 105px 1fr 105px; /* fixed | flexible | fixed */
+    grid-template-columns: 105px 1fr 105px;
     gap: 10px;
   }
 
@@ -234,7 +234,7 @@ aside {
     grid-template-areas:
       "back-button spoof2 spoof"
       "event-title event-title event-title";
-    grid-template-columns: 105px 1fr; /* flexible | flexible */
+    grid-template-columns: 105px 1fr;
   }
   .event-title {
     text-align: center;
