@@ -448,6 +448,13 @@ const EventDetails = () => {
           {eventAttendees.length > 0 && (
             <div>
               <h4>Event Attendees</h4>
+              {event.is_owner && (
+                <p className="no-margin">
+                  Since you are the event owner, you can see email addresses of
+                  attendees for contacting purposes and you can also remove
+                  attendees from this event at your own discretion.
+                </p>
+              )}
               {event.is_owner ? (
                 <ul className="attendees">
                   {eventAttendees.map((attendee) => (

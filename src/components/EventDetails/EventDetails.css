@@ -15,6 +15,10 @@
   width: 100%; */
 }
 
+.no-margin {
+  margin: 0;
+}
+
 .event-header {
   display: grid;
   width: 100%;
