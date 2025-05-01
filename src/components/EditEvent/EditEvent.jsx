@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const EditEvent = () => {
   const { event_id } = useParams();
+  const [eventTitle, setEventTitle] = useState("");
   const [eventDetails, setEventDetails] = useState({
     event_title: "",
     event_description: "",
@@ -22,6 +23,10 @@ const EditEvent = () => {
   const [user, setUser] = useState({ name: "", email: "" });
   const token = Cookies.get("authToken");
   const navigate = useNavigate();
+
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  const [announcement, setAnnouncement] = useState("");
 
   if (!token) {
     console.error("No token found in local storage");
@@ -52,6 +57,10 @@ const EditEvent = () => {
   };
 
   useEffect(() => {
+    document.title = "Edit Event | Events Platform";
+  }, []);
+
+  useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const res = await axios.get(
@@ -72,17 +81,18 @@ const EditEvent = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const res = await axios.get(
+        const response = await axios.get(
           `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        const data = res.data;
+        const data = response.data;
         const formatDateTime = (dt) => (dt ? dt.slice(0, 16) : "");
         setEventDetails({
           ...data,
           event_date: formatDateTime(data.event_date),
           event_date_end: formatDateTime(data.event_date_end),
         });
+        setDataLoaded(true);
       } catch (err) {
         console.error(err);
       }
@@ -90,8 +100,36 @@ const EditEvent = () => {
     fetchEventDetails();
   }, [event_id, token]);
 
+  useEffect(() => {
+    if (dataLoaded) {
+      setAnnouncement(
+        `You are now on the Edit Event page. You are currently editing the event: ${eventDetails.event_title}`
+      );
+    }
+  }, [dataLoaded, eventDetails.event_title]);
+
   return (
     <div className="event">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        role="status"
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          margin: "-1px",
+          border: "0",
+          padding: "0",
+          overflow: "hidden",
+          clip: "rect(0 0 0 0)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {announcement}
+      </div>
+
       {eventDetails.is_owner ? (
         <>
           <h1 className="browse-events-page-title">Edit Event</h1>

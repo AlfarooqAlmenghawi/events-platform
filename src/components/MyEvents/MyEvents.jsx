@@ -13,6 +13,8 @@ const MyEvents = () => {
   const [pageStatus, setPageStatus] = useState("my-signed-up-events");
   const navigate = useNavigate();
 
+  const [announcement, setAnnouncement] = useState("");
+
   const getDuration = (start, end) => {
     const startDate = new Date(start);
     const endDate = new Date(end);
@@ -36,6 +38,10 @@ const MyEvents = () => {
 
     return result.trim();
   };
+
+  useEffect(() => {
+    setAnnouncement("You are now on the My Events page.");
+  }, []);
 
   useEffect(() => {
     const fetchUserEvents = async () => {
@@ -104,7 +110,22 @@ const MyEvents = () => {
   }, []);
 
   return (
-    <div className="my-events">
+    <main className="my-events">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          height: "1px",
+          width: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {announcement}
+      </div>
+
       <h1 className="my-events-page-title">My Events</h1>
       {loading && <p>Loading events...</p>}
       {error && <p>{error}</p>}
@@ -254,7 +275,7 @@ const MyEvents = () => {
           )}
         </main>
       )}
-    </div>
+    </main>
   );
 };
 export default MyEvents;

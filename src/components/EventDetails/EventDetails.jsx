@@ -503,11 +503,7 @@ const EventDetails = () => {
       ) : (
         <div>
           <aside>
-            <h3>Sign up to view event details</h3>
-            <p>
-              Please sign up or log in to view the event details and register
-              for the event.
-            </p>
+            <p>Please log in or sign up to register for the event.</p>
           </aside>
           <div className="sign-in-div">
             <button

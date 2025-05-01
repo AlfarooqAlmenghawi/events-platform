@@ -74,8 +74,31 @@ const CreateEvent = () => {
     fetchUserDetails();
   }, []);
 
+  const [announcement, setAnnouncement] = useState("");
+
+  useEffect(() => {
+    setAnnouncement(
+      "You are now on the Create Event page where you can create a new event."
+    );
+  }, []);
+
   return (
     <main className="event" id="main-content" tabIndex="-1">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          height: "1px",
+          width: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {announcement}
+      </div>
+
       <h1 className="browse-events-page-title">Create Event</h1>
 
       <section className="create-event-form" aria-labelledby="form-heading">

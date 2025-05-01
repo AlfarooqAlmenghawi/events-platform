@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
@@ -50,10 +50,29 @@ const Login = () => {
     }
   };
 
+  const [announcement, setAnnouncement] = useState("");
+
+  useEffect(() => {
+    setAnnouncement("You are now on the Login page.");
+  }, []);
+
   return (
     <div className="event">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          height: "1px",
+          width: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {announcement}
+      </div>
       <h2 className="browse-events-page-title">Login</h2>
-
       <form onSubmit={loginUser} aria-describedby="error-message">
         <div className="title-and-input">
           <label htmlFor="email">Email</label>
@@ -70,7 +89,6 @@ const Login = () => {
           </button>
         </div>
       </form>
-
       {/* Always render an error element, even if it's hidden */}
       <p
         id="error-message"
@@ -82,10 +100,8 @@ const Login = () => {
       >
         {error || "No errors yet."}
       </p>
-
       {/* Message can stay as-is */}
       {message && <p style={{ color: "green" }}>{message}</p>}
-
       <p
         style={{
           textAlign: "center",

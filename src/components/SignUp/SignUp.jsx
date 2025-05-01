@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const SignUp = () => {
@@ -72,8 +72,31 @@ const SignUp = () => {
     }
   };
 
+  const [announcement, setAnnouncement] = useState("");
+
+  useEffect(() => {
+    setAnnouncement(
+      "You are now on the Sign Up page where you can create a new account."
+    );
+  }, []);
+
   return (
     <div className="event">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          height: "1px",
+          width: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {announcement}
+      </div>
+
       <h1 className="browse-events-page-title">Sign Up</h1>
       <form onSubmit={signUpUser}>
         <div className="title-and-input">

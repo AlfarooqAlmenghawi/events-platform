@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 
 const BrowseEvents = () => {
   const [events, setEvents] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("event_title");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -37,35 +40,84 @@ const BrowseEvents = () => {
 
   const fetchEvents = async () => {
     try {
+      const params = new URLSearchParams();
+
+      if (searchTerm) params.append("search", searchTerm);
+      if (sortBy) params.append("sort_by", sortBy);
+      if (sortOrder) params.append("order", sortOrder);
+
       const response = await axios.get(
-        "https://events-platform-backend-production.up.railway.app/events"
+        `https://events-platform-backend-production.up.railway.app/events?${params.toString()}`
       );
       setEvents(response.data);
+      // const response = await axios.get(
+      //   "https://events-platform-backend-production.up.railway.app/events"
+      // );
+      // setEvents(response.data);
     } catch (err) {
       setError(err);
     } finally {
       setLoading(false);
     }
   };
-  // Fetch events when the component mounts
-  // if (loading) return <p>Loading events...</p>;
-  // if (error) return <p>Error fetching events: {error.message}</p>;
-  // if (!events.length) return <p>No events available.</p>;
-  // if (events.length) {
-  //   console.log("Fetched events:", events);
-  // }
+
+  const [announcement, setAnnouncement] = useState("");
+
+  useEffect(() => {
+    setAnnouncement("You are now on the Browse Events page.");
+  }, []);
+
   useEffect(() => {
     fetchEvents();
   }, []);
 
   return (
     <main className="browse-events" id="main-content" tabIndex="-1">
+      {/* Accessible live region */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          height: "1px",
+          width: "1px",
+          overflow: "hidden",
+        }}
+      >
+        {announcement}
+      </div>
+
       <h1 className="browse-events-page-title" tabIndex="1">
         Browse Events
       </h1>
       <p className="browse-events-page-description" tabIndex="2">
         Here you can browse all the events available.
       </p>
+      <section>
+        <input
+          type="text"
+          placeholder="Search events..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
+          <option value="event_date">Date</option>
+          <option value="event_title">Alphabetical</option>
+        </select>
+
+        <select
+          onChange={(e) => setSortOrder(e.target.value)}
+          value={sortOrder}
+        >
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+        <button onClick={fetchEvents} style={{ marginTop: "10px" }}>
+          Apply Filters
+        </button>
+      </section>
       {loading && <p>Loading events...</p>}
       <section className="browse-events-list" tabIndex="3">
         {error && <p>Error fetching events: {error.message}</p>}
