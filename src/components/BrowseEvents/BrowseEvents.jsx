@@ -50,10 +50,6 @@ const BrowseEvents = () => {
         `https://events-platform-backend-production.up.railway.app/events?${params.toString()}`
       );
       setEvents(response.data);
-      // const response = await axios.get(
-      //   "https://events-platform-backend-production.up.railway.app/events"
-      // );
-      // setEvents(response.data);
     } catch (err) {
       setError(err);
     } finally {
@@ -94,29 +90,35 @@ const BrowseEvents = () => {
       <p className="browse-events-page-description" tabIndex="2">
         Here you can browse all the events available.
       </p>
-      <section>
-        <input
-          type="text"
-          placeholder="Search events..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
-        <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
-          <option value="event_date">Date</option>
-          <option value="event_title">Alphabetical</option>
-        </select>
-
-        <select
-          onChange={(e) => setSortOrder(e.target.value)}
-          value={sortOrder}
-        >
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
-        <button onClick={fetchEvents} style={{ marginTop: "10px" }}>
-          Apply Filters
-        </button>
+      <section className="browse-events-filters">
+        <div className="browse-events-filter">
+          {/* <p htmlFor="search">Search:</p> */}
+          <input
+            className="browse-events-search"
+            type="text"
+            placeholder="Search Events Here..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="browse-events-filter">
+          <p htmlFor="sort-by">Sort By:</p>
+          <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
+            <option value="event_date">Date</option>
+            <option value="event_title">Alphabetical</option>
+          </select>
+        </div>
+        <div className="browse-events-filter">
+          <p htmlFor="sort-order">Sort Order:</p>
+          <select
+            onChange={(e) => setSortOrder(e.target.value)}
+            value={sortOrder}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+        <button onClick={fetchEvents}>Search Events</button>
       </section>
       {loading && <p>Loading events...</p>}
       <section className="browse-events-list" tabIndex="3">

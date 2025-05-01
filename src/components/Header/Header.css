@@ -9,7 +9,7 @@ body {
   align-items: center;
   padding: 15px 40px;
   grid-template-areas: "logo nav";
-  grid-template-columns: auto 1fr; /* fixed | flexible | fixed */
+  grid-template-columns: auto 1fr;
   gap: 10px;
   /* background: #fff4e6; */
   border-bottom: 2px solid #ff6b6b;
@@ -117,26 +117,29 @@ body {
     font-size: 16px;
     cursor: pointer;
     margin-left: auto;
+    /* width: 100px; */
   }
 
   .header-buttons-phone {
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 80px; /* Push it down a bit below the header */
+    top: 80px;
     right: 20px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
     z-index: 1000;
+    width: 45%;
     gap: 10px;
     align-items: center;
     /* width: 200px; Give it a proper width */
   }
 
   .header-button-phone {
-    /* display: block; */
+    width: 100%; /* Allow it to be responsive */
+    max-width: 200px; /* Limit maximum width */
     background-color: #ff4040;
     color: white;
     border: none;
@@ -144,9 +147,23 @@ body {
     border-radius: 5px;
     font-family: "SpecialGothic", sans-serif;
     font-size: 16px;
-    width: 200px;
     text-align: center;
     cursor: pointer;
     text-decoration: none;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+  }
+
+  .header-buttons-phone button {
+    width: 100%; /* Allow it to be responsive */
+    background-color: #ff4040;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "SpecialGothic", sans-serif;
+    font-size: 16px;
+    max-width: 200px;
+    text-align: center;
+    cursor: pointer;
   }
 }
