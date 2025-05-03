@@ -17,6 +17,7 @@ const EditEvent = () => {
     event_date_end: "",
   });
   const [loading, setLoading] = useState(false);
+  const [buttonPressed, setButtonPressed] = useState("");
   const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imageURL, setImageURL] = useState("");
@@ -146,6 +147,7 @@ const EditEvent = () => {
                   return;
                 }
                 setLoading(true);
+                setButtonPressed("edit");
                 try {
                   const uploadedImageURL = await uploadImage();
                   const finalImageURL =
@@ -346,10 +348,12 @@ const EditEvent = () => {
               <div className="create-event-form-button-div">
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading && buttonPressed === "edit"}
                   className="create-event-form-button"
                 >
-                  {loading ? "Editing..." : "Edit Event"}
+                  {loading && buttonPressed === "edit"
+                    ? "Editing..."
+                    : "Edit Event"}
                 </button>
               </div>
 
@@ -369,6 +373,7 @@ const EditEvent = () => {
               onSubmit={async (e) => {
                 e.preventDefault();
                 setLoading(true);
+                setButtonPressed("delete");
                 try {
                   const res = await axios.delete(
                     `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
@@ -389,10 +394,12 @@ const EditEvent = () => {
               <div className="create-event-form-button-div">
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading && buttonPressed === "delete"}
                   className="create-event-form-button"
                 >
-                  {loading ? "Deleting..." : "Delete Event"}
+                  {loading && buttonPressed === "delete"
+                    ? "Deleting..."
+                    : "Delete Event"}
                 </button>
               </div>
             </form>

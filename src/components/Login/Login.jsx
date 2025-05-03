@@ -17,7 +17,7 @@ const Login = () => {
 
   const loginUser = async (event) => {
     event.preventDefault(); // Prevent form default submission behavior
-
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://events-platform-backend-production.up.railway.app/login",
@@ -84,8 +84,12 @@ const Login = () => {
         </div>
 
         <div className="create-event-form-button-div">
-          <button className="create-event-form-button" type="submit">
-            Login
+          <button
+            className="create-event-form-button"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </div>
       </form>
@@ -110,7 +114,7 @@ const Login = () => {
       >
         Don't have an account?{" "}
         <a href="/signup" aria-label="Sign up for a new account">
-          Sign Up
+          Sign Up Here
         </a>
       </p>
     </div>

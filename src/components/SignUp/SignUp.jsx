@@ -9,6 +9,8 @@ const SignUp = () => {
 
   const [error, setError] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const signUpUser = async (event) => {
     event.preventDefault(); // Prevent form default submission behavior
 
@@ -141,7 +143,11 @@ const SignUp = () => {
             <a href="/privacy-policy">Privacy Policy</a>.
           </p> */}
 
-          <button className="create-event-form-button" type="submit">
+          <button
+            className="create-event-form-button"
+            type="submit"
+            disabled={loading}
+          >
             Sign Up
           </button>
         </div>
