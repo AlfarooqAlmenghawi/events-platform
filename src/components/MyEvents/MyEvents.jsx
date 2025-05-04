@@ -164,7 +164,11 @@ const MyEvents = () => {
                 Here you can view the events you have signed up for.
               </p>
               {userEvents?.length === 0 && !loading && (
-                <p>It seems that you have'nt signed up for any events yet!</p>
+                <p>
+                  It seems that you haven't signed up for any events yet! Go to{" "}
+                  <a href="/browse-events">Browse Events</a> to look for
+                  interesting events and fun clubs to sign up for!
+                </p>
               )}
               <section className="my-events-list">
                 {userEvents?.map((event) => (
@@ -226,7 +230,10 @@ const MyEvents = () => {
                 Create New Event
               </button>
               {userCreatedEvents?.length === 0 && !loading && (
-                <p>It seems that you haven't created any events yet!</p>
+                <p>
+                  It seems that you haven't created any events yet! Click the
+                  button above to get started!
+                </p>
               )}
               <section className="my-events-list">
                 {userCreatedEvents?.map((event) => (

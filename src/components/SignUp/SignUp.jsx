@@ -13,65 +13,74 @@ const SignUp = () => {
 
   const signUpUser = async (event) => {
     event.preventDefault(); // Prevent form default submission behavior
-
-    if (event.target.password.value !== event.target.confirm_password.value) {
-      console.error("Passwords do not match");
-      setError("Passwords do not match");
-      return;
-    }
-    setError(null); // Reset error message
-    // Check if the password is strong
-    const password = event.target.password.value;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(password)) {
-      console.error(
-        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
-      );
-      setError(
-        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
-      );
-      return;
-    }
-    setError(null); // Reset error message
-    // Check if the email is valid
-    const email = event.target.email.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      console.error("Invalid email format");
-      setError("Invalid email format");
-      return;
-    }
-    setError(null); // Reset error message
-    // Check if the first name and last name are valid
-    const firstName = event.target.first_name.value;
-    const lastName = event.target.last_name.value;
-    const nameRegex = /^[a-zA-Z]+$/;
-    if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-      console.error("First name and last name must contain only letters");
-      setError("First name and last name must contain only letters");
-      return;
-    }
-    setError(null); // Reset error message
-    try {
-      const response = await axios.post(
-        "https://events-platform-backend-production.up.railway.app/register",
-        {
-          first_name: event.target.first_name.value,
-          last_name: event.target.last_name.value,
-          email: event.target.email.value,
-          password: event.target.password.value,
-        }
-      );
-
-      // Redirect or update UI
-      navigate("/verify");
-    } catch (error) {
-      if (error.response) {
-        console.error("Sign Up failed:", error.response);
-      } else {
-        console.error("Sign Up error:", error.message);
+    setLoading(true);
+    setTimeout(async () => {
+      if (event.target.password.value !== event.target.confirm_password.value) {
+        console.error("Passwords do not match");
+        setError("Passwords do not match");
+        setLoading(false);
+        return;
       }
-    }
+      setError(null); // Reset error message
+      // Check if the password is strong
+      const password = event.target.password.value;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      if (!passwordRegex.test(password)) {
+        console.error(
+          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
+        );
+        setError(
+          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
+        );
+        setLoading(false);
+        return;
+      }
+      setError(null); // Reset error message
+      // Check if the email is valid
+      const email = event.target.email.value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        console.error("Invalid email format");
+        setError("Invalid email format");
+        setLoading(false);
+        return;
+      }
+      setError(null); // Reset error message
+      // Check if the first name and last name are valid
+      const firstName = event.target.first_name.value;
+      const lastName = event.target.last_name.value;
+      const nameRegex = /^[a-zA-Z]+$/;
+      if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+        console.error("First name and last name must contain only letters");
+        setError("First name and last name must contain only letters");
+        setLoading(false);
+        return;
+      }
+      setError(null); // Reset error message
+      try {
+        const response = await axios.post(
+          "https://events-platform-backend-production.up.railway.app/register",
+          {
+            first_name: event.target.first_name.value,
+            last_name: event.target.last_name.value,
+            email: event.target.email.value,
+            password: event.target.password.value,
+          }
+        );
+
+        // Redirect or update UI
+        navigate("/verify");
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+
+        if (error.response) {
+          console.error("Sign Up failed:", error.response);
+        } else {
+          console.error("Sign Up error:", error.message);
+        }
+      }
+    }, 100); // Simulate a delay for loading state
   };
 
   const [announcement, setAnnouncement] = useState("");
@@ -148,7 +157,7 @@ const SignUp = () => {
             type="submit"
             disabled={loading}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </div>
       </form>

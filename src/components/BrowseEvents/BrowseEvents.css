@@ -22,6 +22,8 @@
   font-size: 20px;
   color: #333;
   margin: 0;
+  width: 80%;
+  text-align: center;
 }
 
 .browse-events-list {
@@ -29,7 +31,15 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
   padding: 20px;
+  padding-top: 0px;
   width: 100%;
+}
+
+.browse-events-results {
+  font-style: italic;
+  color: #686767;
+  margin: 10px;
+  margin-bottom: 0;
 }
 
 .browse-event-card {

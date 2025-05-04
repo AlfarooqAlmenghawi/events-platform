@@ -31,8 +31,11 @@ const Login = () => {
 
       await login(token);
       navigate("/my-events");
+      setLoading(false);
     } catch (error) {
       if (error.response) {
+        setLoading(false);
+
         if (error.response.status === 400) {
           setError(
             "It seems that your username/password isn't correct. If you are sure you entered them correctly, please verify your email before logging in."

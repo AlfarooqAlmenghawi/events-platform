@@ -90,7 +90,9 @@ const BrowseEvents = () => {
         Browse Events
       </h1>
       <p className="browse-events-page-description" tabIndex="2">
-        Here you can browse all the events available.
+        Here you can browse all the events available. Click on 'View More
+        Details' to see more information about each event, sign up and add to
+        your Google Calendar.
       </p>
       <section className="browse-events-filters">
         <div className="browse-events-filter">
@@ -125,12 +127,14 @@ const BrowseEvents = () => {
       {loading && <p>Loading events...</p>}
       {error && <p>Error fetching events: {error.message}</p>}
       {events.length === 0 && !loading && (
-        <p>No events found matching your criteria.</p>
+        <p className="browse-events-results">
+          No events found matching your criteria.
+        </p>
       )}
       {events.length > 0 && (
-        <p>
+        <p className="browse-events-results">
           Found {events.length} event
-          {events.length > 1 ? "s" : ""} matching your criteria.
+          {events.length > 1 ? "s" : ""} matching current criteria
         </p>
       )}
       <section className="browse-events-list" tabIndex="3">
