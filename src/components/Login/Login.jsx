@@ -33,9 +33,8 @@ const Login = () => {
       navigate("/my-events");
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       if (error.response) {
-        setLoading(false);
-
         if (error.response.status === 400) {
           setError(
             "It seems that your username/password isn't correct. If you are sure you entered them correctly, please verify your email before logging in."
@@ -46,9 +45,10 @@ const Login = () => {
             "It seems that your email isn't verified. Please check your inbox and verify your email before logging in."
           );
         }
-        console.error("Login failed:", error.response);
+      } else if (error.request) {
+        setError("Network error. Please try again later.");
       } else {
-        console.error("Login error:", error.message);
+        setError("An unexpected error occurred. Please try again.");
       }
     }
   };

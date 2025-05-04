@@ -23,7 +23,6 @@ const CreateEvent = () => {
   const token = Cookies.get("authToken");
 
   if (!token) {
-    console.error("No token found in local storage");
     return <p className="event">Please log in to create an event.</p>;
   }
 
@@ -67,9 +66,7 @@ const CreateEvent = () => {
           name: response.data.first_name + " " + response.data.last_name,
           email: response.data.email,
         });
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     fetchUserDetails();
   }, []);

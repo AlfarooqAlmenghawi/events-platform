@@ -27,10 +27,6 @@ export const AuthProvider = ({ children }) => {
 
           setUser(response.data); // Set fresh DB user
         } catch (err) {
-          console.error(
-            "Token verification or user fetch failed:",
-            err.message
-          );
           setUser(null);
         }
       }

@@ -60,7 +60,6 @@ const MyEvents = () => {
         );
         setUserEvents(response.data.events);
       } catch (error) {
-        console.warn(error);
         if (error.response.data === "Invalid or expired token") {
           setError(
             "Please login or create an account to view/ create your events."
@@ -93,7 +92,6 @@ const MyEvents = () => {
         );
         setUserCreatedEvents(response.data.events);
       } catch (error) {
-        console.warn(error);
         if (error.response.data === "Invalid or expired token") {
           setError(
             "Please login or create an account to view/ create your events."

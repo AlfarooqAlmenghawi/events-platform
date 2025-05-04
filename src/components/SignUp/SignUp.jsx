@@ -16,7 +16,6 @@ const SignUp = () => {
     setLoading(true);
     setTimeout(async () => {
       if (event.target.password.value !== event.target.confirm_password.value) {
-        console.error("Passwords do not match");
         setError("Passwords do not match");
         setLoading(false);
         return;
@@ -26,9 +25,6 @@ const SignUp = () => {
       const password = event.target.password.value;
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
       if (!passwordRegex.test(password)) {
-        console.error(
-          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
-        );
         setError(
           "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number."
         );
@@ -40,7 +36,6 @@ const SignUp = () => {
       const email = event.target.email.value;
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        console.error("Invalid email format");
         setError("Invalid email format");
         setLoading(false);
         return;
@@ -51,7 +46,6 @@ const SignUp = () => {
       const lastName = event.target.last_name.value;
       const nameRegex = /^[a-zA-Z]+$/;
       if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-        console.error("First name and last name must contain only letters");
         setError("First name and last name must contain only letters");
         setLoading(false);
         return;
@@ -73,11 +67,19 @@ const SignUp = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-
         if (error.response) {
-          console.error("Sign Up failed:", error.response);
+          if (error.response.status === 400) {
+            setError(
+              "It seems that your username/password isn't correct. If you are sure you entered them correctly, please verify your email before logging in."
+            );
+          }
+          if (error.response.data === "Email already registered") {
+            setError("Email already exists");
+          }
+        } else if (error.request) {
+          setError("Network error. Please try again later.");
         } else {
-          console.error("Sign Up error:", error.message);
+          setError("An unexpected error occurred. Please try again.");
         }
       }
     }, 100); // Simulate a delay for loading state

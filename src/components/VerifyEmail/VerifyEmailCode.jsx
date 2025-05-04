@@ -18,7 +18,6 @@ const VerifyEmailCode = () => {
           "/login?message=Email verified successfully. You can now log in."
         );
       } catch (error) {
-        console.error("Verification failed:", error);
         if (error.response) {
           setError("Verification failed. Please try again.");
         } else {

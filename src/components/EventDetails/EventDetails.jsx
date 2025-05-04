@@ -187,14 +187,12 @@ const EventDetails = () => {
         setAddedToCalendar(true);
       } else {
         const error = await response.json();
-        console.error("Calendar error:", error);
         setPopup("Error adding to Google Calendar.");
       }
 
       const profile = user.getBasicProfile();
       setUserGmail(profile.getEmail());
     } catch (err) {
-      console.error("Error adding to Google Calendar:", err);
       setPopup("Error adding to Google Calendar.");
     } finally {
       setButtonLoading(false);
@@ -242,7 +240,6 @@ const EventDetails = () => {
 
       setEventAttendees(response2.data);
     } catch (error) {
-      console.error("Error removing attendee:", error);
       setPopup(null);
       if (error.status === 403) {
         setPopup("You are not authorized to remove this attendee.");
@@ -287,7 +284,6 @@ const EventDetails = () => {
             setUserGmail(profile.getEmail());
           }
         } catch (err) {
-          console.error("Google API init error:", err);
           setPopup("Failed to initialize Google Calendar access.");
           setTimeout(() => setPopup(null), 3000);
         }

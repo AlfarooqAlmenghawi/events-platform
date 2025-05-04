@@ -30,7 +30,6 @@ const EditEvent = () => {
   const [announcement, setAnnouncement] = useState("");
 
   if (!token) {
-    console.error("No token found in local storage");
     return <p className="event">Please log in to edit an event.</p>;
   }
 
@@ -72,9 +71,7 @@ const EditEvent = () => {
           name: res.data.first_name + " " + res.data.last_name,
           email: res.data.email,
         });
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     fetchUserDetails();
   }, []);
@@ -94,9 +91,7 @@ const EditEvent = () => {
           event_date_end: formatDateTime(data.event_date_end),
         });
         setDataLoaded(true);
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     fetchEventDetails();
   }, [event_id, token]);
