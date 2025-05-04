@@ -18,7 +18,7 @@ This is a responsive web app built for small communities or businesses to create
 
 ## 🧪 Test Account Details
 
-Test Account (to browse events as a user or create and manage events as a staff member):
+Test Account Access Details (to browse events as a user or create and manage events as a staff member):
 
 ```
 Email: test@eventsplatform.com
@@ -44,21 +44,21 @@ Then hold the Crtl key (or cmd on Mac) and click on the link provided by Vite (U
 
 **React & Vite** - frameworks used for the layout of the entire project
 
-**Axios & JS Cookies** - frameworks use for communicating with the backend for various tasks e.g. sending login data to the backend, and recieving the JWT token to store in the browser as a cookie (which keeps the user logged in for up to 7 days.)
+**Axios & JS Cookies** - frameworks used for communicating with the backend for various tasks e.g. sending login data to the backend, and recieving the JWT token to store in the browser as a cookie (which keeps the user logged in for up to 7 days.)
 
 **Supabase Storage** - Used for implementing image uploads and storing images (event banners)
 
 **Google Calendar API** - Used for **Calendar Integration** to register events on the user's Google Calendar and includes OAuth for sign in with the user's gmail account that they prefer to use to save said event.
 
-**Netlify** - Used for hosting the project for public use on a web browser and a mobile phone browser which confirms responsiveness
+**Netlify** - Used for hosting the project for public access on a web browser and on mobile phones which contains layout responsiveness across devices
 
 ## 🔒 Accessibility
 
-Tab navigation is enabled for all major flows. Form fields use proper labels to signal what it is for. ARIA labels added to buttons/links where necessary
+Tab navigation is enabled for all major elements. Form fields use proper labels to signal what it is for. ARIA labels added to buttons/links where necessary
 
 # _🛠️ Known Issues / Work in Progress_
 
-Some screen reader feedback (e.g., password inputs) is imperfect. More refinement could be made to keyboard tab order and ARIA live regions
+Some screen reader feedback (e.g., password inputs) is imperfect. More refinement could be made to keyboard tab order and ARIA live regions, however some screen readers may pick up feedback better than others.
 
 📂 Backend Setup (API)
 The backend Express API is available here. Follow its README to run the server locally.
