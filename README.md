@@ -64,5 +64,5 @@ Some screen reader feedback (e.g., password inputs) is imperfect. More refinemen
 The backend Express API is available here. Follow its README to run the server locally.
 
 ```
-https://events-platform-backend-production.up.railway.app/
+https://events-platform-backend-5pjx.onrender.com/
 ```
