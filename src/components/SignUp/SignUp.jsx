@@ -53,7 +53,7 @@ const SignUp = () => {
       setError(null); // Reset error message
       try {
         const response = await axios.post(
-          "https://events-platform-backend-production.up.railway.app/register",
+          "https://events-platform-backend-5pjx.onrender.com/register",
           {
             first_name: event.target.first_name.value,
             last_name: event.target.last_name.value,

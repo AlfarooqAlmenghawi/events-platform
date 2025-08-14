@@ -44,7 +44,7 @@ const EditEvent = () => {
     const formData = new FormData();
     formData.append("image", imageFile);
     const response = await axios.post(
-      "https://events-platform-backend-production.up.railway.app/upload",
+      "https://events-platform-backend-5pjx.onrender.com/upload",
       formData,
       {
         headers: {
@@ -64,7 +64,7 @@ const EditEvent = () => {
     const fetchUserDetails = async () => {
       try {
         const res = await axios.get(
-          "https://events-platform-backend-production.up.railway.app/profile",
+          "https://events-platform-backend-5pjx.onrender.com/profile",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUser({
@@ -80,7 +80,7 @@ const EditEvent = () => {
     const fetchEventDetails = async () => {
       try {
         const response = await axios.get(
-          `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+          `https://events-platform-backend-5pjx.onrender.com/events/${event_id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const data = response.data;
@@ -148,7 +148,7 @@ const EditEvent = () => {
                   const finalImageURL =
                     uploadedImageURL || eventDetails.event_image_url;
                   const res = await axios.put(
-                    `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+                    `https://events-platform-backend-5pjx.onrender.com/events/${event_id}`,
                     { ...eventDetails, event_image_url: finalImageURL },
                     { headers: { Authorization: `Bearer ${token}` } }
                   );
@@ -371,7 +371,7 @@ const EditEvent = () => {
                 setButtonPressed("delete");
                 try {
                   const res = await axios.delete(
-                    `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+                    `https://events-platform-backend-5pjx.onrender.com/events/${event_id}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                   );
                   if (res.status === 200) navigate("/my-events");

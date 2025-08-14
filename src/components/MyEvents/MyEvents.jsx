@@ -51,7 +51,7 @@ const MyEvents = () => {
       setError(null);
       try {
         const response = await axios.get(
-          "https://events-platform-backend-production.up.railway.app/my-events",
+          "https://events-platform-backend-5pjx.onrender.com/my-events",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ const MyEvents = () => {
       setError(null);
       try {
         const response = await axios.get(
-          "https://events-platform-backend-production.up.railway.app/my-created-events",
+          "https://events-platform-backend-5pjx.onrender.com/my-created-events",
           {
             headers: {
               Authorization: `Bearer ${token}`,

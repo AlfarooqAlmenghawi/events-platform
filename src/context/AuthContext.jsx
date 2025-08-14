@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const response = await axios.get(
-            "https://events-platform-backend-production.up.railway.app/profile",
+            "https://events-platform-backend-5pjx.onrender.com/profile",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     const response = await axios.get(
-      "https://events-platform-backend-production.up.railway.app/profile",
+      "https://events-platform-backend-5pjx.onrender.com/profile",
       {
         headers: {
           Authorization: `Bearer ${token}`,

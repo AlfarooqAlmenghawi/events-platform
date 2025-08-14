@@ -48,7 +48,7 @@ const BrowseEvents = () => {
       if (sortOrder) params.append("order", sortOrder);
 
       const response = await axios.get(
-        `https://events-platform-backend-production.up.railway.app/events?${params.toString()}`
+        `https://events-platform-backend-5pjx.onrender.com/events?${params.toString()}`
       );
       setEvents(response.data);
       setLoading(false);

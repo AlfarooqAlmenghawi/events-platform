@@ -39,7 +39,7 @@ const CreateEvent = () => {
     const formData = new FormData();
     formData.append("image", imageFile);
     const response = await axios.post(
-      "https://events-platform-backend-production.up.railway.app/upload",
+      "https://events-platform-backend-5pjx.onrender.com/upload",
       formData,
       {
         headers: {
@@ -55,7 +55,7 @@ const CreateEvent = () => {
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
-          "https://events-platform-backend-production.up.railway.app/profile",
+          "https://events-platform-backend-5pjx.onrender.com/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const CreateEvent = () => {
             try {
               const uploadedImageURL = await uploadImage();
               const response = await axios.post(
-                "https://events-platform-backend-production.up.railway.app/events",
+                "https://events-platform-backend-5pjx.onrender.com/events",
                 { ...eventDetails, event_image_url: uploadedImageURL },
                 { headers: { Authorization: `Bearer ${token}` } }
               );

@@ -74,7 +74,7 @@ const EventDetails = () => {
     try {
       setButtonLoading(true);
       const response = await axios.delete(
-        `https://events-platform-backend-production.up.railway.app/events/${event_id}/signup`,
+        `https://events-platform-backend-5pjx.onrender.com/events/${event_id}/signup`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ const EventDetails = () => {
     try {
       setButtonLoading(true);
       const response = await axios.post(
-        `https://events-platform-backend-production.up.railway.app/events/${event_id}/signup`,
+        `https://events-platform-backend-5pjx.onrender.com/events/${event_id}/signup`,
         {},
         {
           headers: {
@@ -218,7 +218,7 @@ const EventDetails = () => {
       setButtonLoading(true);
       setButtonAttendeeIdStatus(attendee_id);
       const response = await axios.delete(
-        `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees/${attendee_id}`,
+        `https://events-platform-backend-5pjx.onrender.com/events/${event_id}/attendees/${attendee_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -230,7 +230,7 @@ const EventDetails = () => {
         setTimeout(() => setPopup(null), 3000); // auto-close after 3 seconds
       }
       const response2 = await axios.get(
-        `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees`,
+        `https://events-platform-backend-5pjx.onrender.com/events/${event_id}/attendees`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -297,7 +297,7 @@ const EventDetails = () => {
     const fetchEvent = async () => {
       try {
         const response = await axios.get(
-          `https://events-platform-backend-production.up.railway.app/events/${event_id}`,
+          `https://events-platform-backend-5pjx.onrender.com/events/${event_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -307,7 +307,7 @@ const EventDetails = () => {
         setEvent(response.data);
         setIsSignedUp(response.data.is_signed_up);
         const response2 = await axios.get(
-          `https://events-platform-backend-production.up.railway.app/events/${event_id}/attendees`,
+          `https://events-platform-backend-5pjx.onrender.com/events/${event_id}/attendees`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

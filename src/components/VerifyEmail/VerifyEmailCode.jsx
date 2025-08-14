@@ -12,7 +12,7 @@ const VerifyEmailCode = () => {
     const verify = async () => {
       try {
         const response = await axios.get(
-          `https://events-platform-backend-production.up.railway.app/verify/${verification_code}`
+          `https://events-platform-backend-5pjx.onrender.com/verify/${verification_code}`
         );
         navigate(
           "/login?message=Email verified successfully. You can now log in."

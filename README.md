@@ -6,7 +6,7 @@ This is a responsive web app built for small communities or businesses to create
 
 ⚙️ Backend API repo: https://github.com/AlfarooqAlmenghawi/events-platform-backend
 
-## Features (MVP)
+## 📌 Features (MVP)
 
 1. Users browse a list of community events
 2. Users sign up for events (JWT-authenticated)

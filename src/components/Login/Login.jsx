@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://events-platform-backend-production.up.railway.app/login",
+        "https://events-platform-backend-5pjx.onrender.com/login",
         {
           email: event.target.email.value,
           password: event.target.password.value,
